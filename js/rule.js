@@ -37,8 +37,10 @@ function findConnect() {
 
     if (clearFlag) 
         findEachClear();
-    else
+    else{
         canPlay = true;
+        combo = 0;
+    }
 }
 
 // total each time beads to clear
@@ -254,7 +256,6 @@ function allClear(){
         clearNum[i].length = 0;
     }
     clearFlag = false;
-    combo = 0;
 }
 
 //dir: row -> 0, col -> 1
