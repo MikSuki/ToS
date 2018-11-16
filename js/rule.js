@@ -146,6 +146,10 @@ function findEachClear() {
         }
         // clear canvas
         drawClear(thisClear);
+        // play music
+        comboAud[combo].play();
+        if(combo < 8) ++combo;
+
         thisClear = [];
     }, clearT);
 }
@@ -250,6 +254,7 @@ function allClear(){
         clearNum[i].length = 0;
     }
     clearFlag = false;
+    combo = 0;
 }
 
 //dir: row -> 0, col -> 1

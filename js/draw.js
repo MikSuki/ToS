@@ -23,11 +23,11 @@ function drawBackground() {
         y += gridSize;
     }
 
-    bCtx.fillStyle = "#000000";
+    /*bCtx.fillStyle = "#000000";
     bCtx.fillRect(startX, startY, gridSize * 6, 1);
     bCtx.fillRect(startX, startY, 1, gridSize * 5);
     bCtx.fillRect(startX, endY, gridSize * 6, 1);
-    bCtx.fillRect(endX, startY, 1, gridSize * 5);
+    bCtx.fillRect(endX, startY, 1, gridSize * 5);*/
 }
 
 function drawBeads() {

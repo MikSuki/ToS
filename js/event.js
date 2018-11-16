@@ -35,9 +35,15 @@ function mouseMove(x, y) {
         var y = Math.floor(((mousePosY - startY) / gridSize)) * 6;
         hover = x + y;
         if (hover != lastHover) {
+            // isMove , so  time is counting down
+            if(!isMove){
+                isMove = true;
+                pBMove();
+            }
             var temp = beads[lastHover].type;
             beads[lastHover].type = beads[hover].type;
             beads[hover].type = temp;
+            moveBeadsAud.play();
         }
         drawMove();
     }
@@ -49,6 +55,7 @@ function mouseUp() {
     if (canPlay || !isClick) return;
 
     isClick = false;
+    isMove = false;
     drawUp();
     findConnect();
 }

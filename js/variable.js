@@ -1,3 +1,9 @@
+// button
+var startBtn;
+// progress bar
+var progressBar ;
+var progress;
+var bar;
 // canvas
 var mainCanvas, backCanvas;
 var mCtx, bCtx;
@@ -39,6 +45,13 @@ var hover = -1;
 // flag
 var canPlay = false;
 var isClick = false;
+var isMove = false;
 // interval time
 var clearT = 300;
 var dropT = 25;
+// audio
+var comboAud = [];
+var moveBeadsAud;
+var bgm;
+
+var combo = 0;
