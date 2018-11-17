@@ -43,7 +43,7 @@ function mouseMove(x, y) {
             var temp = beads[lastHover].type;
             beads[lastHover].type = beads[hover].type;
             beads[hover].type = temp;
-            moveBeadsAud.play();
+            new Audio(moveAudSrc).play();
         }
         drawMove();
     }
@@ -53,7 +53,12 @@ function mouseMove(x, y) {
 
 function mouseUp() {
     if (canPlay || !isClick) return;
-
+    if(!isMove) {
+        drawUp();
+        isClick = false;
+        canPlay = true; 
+        return;
+    }
     isClick = false;
     isMove = false;
     drawUp();

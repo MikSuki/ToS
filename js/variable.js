@@ -27,7 +27,6 @@ var startX, startY;
 var endX, endY;
 // size
 var gridSize;
-var beadSize, halfBeadSize;
 var gap;
 var dropSize = 5;
 // every drop height
@@ -48,10 +47,15 @@ var isClick = false;
 var isMove = false;
 // interval time
 var clearT = 300;
-var dropT = 25;
+var dropT = 15;
 // audio
+var moveAudSrc;
 var comboAud = [];
-var moveBeadsAud;
+var comboMaxAudSrc;
+var cntAudSrc;
 var bgm;
+// image
+var backImg;
+var beadsImg = [];
 
 var combo = 0;

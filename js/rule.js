@@ -149,8 +149,14 @@ function findEachClear() {
         // clear canvas
         drawClear(thisClear);
         // play music
-        comboAud[combo].play();
-        if(combo < 8) ++combo;
+        if(thisClear.length >= 5)
+            new Audio(cntAudSrc).play();
+        ++combo;
+        if(combo < 10) {
+            comboAud[combo - 1].play();
+        }
+        else
+            new Audio(comboMaxAudSrc).play();
 
         thisClear = [];
     }, clearT);
@@ -214,7 +220,7 @@ function calDrop() {
             return;
         }
         drawDropBeads();
-        drawDropBeads2();
+        drawNewBeads();
     }, dropT);
 
 
