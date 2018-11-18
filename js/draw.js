@@ -1,43 +1,52 @@
+// UI
 function drawBackground() {
-    /* x = startX;
-    var y = startY;
-    for (var i = 0; i < 5; ++i) {
-        if (i % 2) {
-            var color1 = "#DDDDDD";
-            var color2 = "#AAAAAA";
-        }
-        else {
-            var color1 = "#AAAAAA";
-            var color2 = "#DDDDDD";
-        }
-
-        for (var j = 0; j < 6; ++j) {
-            if (j % 2)
-                bCtx.fillStyle = color1;
-            else
-                bCtx.fillStyle = color2;
-            bCtx.fillRect(x, y, gridSize, gridSize);
-            x += gridSize;
-        }
-        x = startX;
-        y += gridSize;
-    }*/
-
     bCtx.drawImage(backImg, startX, startY, gridSize * 4, gridSize * 4);
     bCtx.drawImage(backImg, 0, 0, 168, 168, startX + gridSize * 4, startY, gridSize * 2, gridSize * 2);
     bCtx.drawImage(backImg, 0, 0, 168, 168, startX + gridSize * 4, startY + gridSize * 2, gridSize * 2, gridSize * 2);
     bCtx.drawImage(backImg, 0, 0, 168, 84, startX, startY + gridSize * 4, gridSize * 2, gridSize);
     bCtx.drawImage(backImg, 0, 0, 168, 84, startX +  + gridSize * 2, startY + gridSize * 4, gridSize * 2, gridSize);
     bCtx.drawImage(backImg, 0, 0, 168, 84, startX + gridSize * 4, startY + gridSize * 4, gridSize * 2, gridSize);
-    
-    
-    /*bCtx.fillStyle = "#000000";
-    bCtx.fillRect(startX, startY, gridSize * 6, 1);
-    bCtx.fillRect(startX, startY, 1, gridSize * 5);
-    bCtx.fillRect(startX, endY, gridSize * 6, 1);
-    bCtx.fillRect(endX, startY, 1, gridSize * 5);*/
+    drawBar(0, 1);
+    drawMusic();
 }
 
+function drawBar(w, mode) {
+    var w = (!w) ? gridSize * 6 : w;
+    var h = Math.floor(gridSize * 6 / 15);
+    clearBar();
+    if(mode){
+        bCtx.drawImage(lifeBar, startX, startY - h, w, h);
+        bCtx.drawImage(lifeImg, startX, startY - h * 1.75, h * 2, h * 2);
+    }
+    else {
+        bCtx.drawImage(timeBar, startX, startY - h, w, h);
+        bCtx.drawImage(timeImg, startX, startY - h * 1.75, h * 2, h * 2);
+    }
+}
+
+function clearBar(){
+    var w = gridSize * 6;
+    var h = Math.floor(w / 15);
+    bCtx.clearRect(startX, startY - h, w, h);
+}
+
+function drawMusic(){
+    music = ~music;
+    bCtx.clearRect(endX - gridSize, gridSize, halfGridSize, halfGridSize);
+    if(music){
+        bCtx.drawImage(musicPause, endX - gridSize, gridSize, halfGridSize, halfGridSize);
+        bgm.play();
+    }
+    else{
+        bCtx.drawImage(musicPlay, endX - gridSize, gridSize, halfGridSize, halfGridSize);
+        bgm.pause();
+    }
+}
+
+
+
+
+// beads
 function drawBeads() {
     for (var i = 0; i < 6; ++i) {
         var img = beadsImg[i];
@@ -121,7 +130,7 @@ function drawMove() {
     var img = beadsImg[clickedBead.type];
     mCtx.drawImage(img, x, y, gridSize, gridSize);
     mCtx.globalAlpha = 1;
-
+    mCtx.drawImage(cursor, x, y);
 }
 
 // redraw when input up or out 

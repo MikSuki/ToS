@@ -17,6 +17,9 @@ function mouseDown(x, y) {
 
         drawMove();
     }
+    else if(mousePosX > (endX - gridSize) && mousePosX < (endX - halfGridSize)
+        && mousePosY > gridSize && mousePosY < (gridSize + halfGridSize))
+            drawMusic();
 }
 
 

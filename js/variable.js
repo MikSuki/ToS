@@ -1,9 +1,5 @@
 // button
 var startBtn;
-// progress bar
-var progressBar ;
-var progress;
-var bar;
 // canvas
 var mainCanvas, backCanvas;
 var mCtx, bCtx;
@@ -27,6 +23,7 @@ var startX, startY;
 var endX, endY;
 // size
 var gridSize;
+var halfGridSize;
 var gap;
 var dropSize = 5;
 // every drop height
@@ -45,6 +42,7 @@ var hover = -1;
 var canPlay = false;
 var isClick = false;
 var isMove = false;
+var music = false;
 // interval time
 var clearT = 300;
 var dropT = 15;
@@ -57,5 +55,10 @@ var bgm;
 // image
 var backImg;
 var beadsImg = [];
+var cursor;
+var timeBar, lifeBar;
+var timeImg, lifeImg;
+var musicPlay, musicPause;
+
 
 var combo = 0;

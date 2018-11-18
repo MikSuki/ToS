@@ -1,7 +1,5 @@
 window.onload = function () {
     startBtn = document.getElementById("button");
-    progressBar = document.getElementById("progressBar");
-    progress = document.getElementById("progress");
     bar = document.getElementById("bar");
     mainCanvas = document.getElementById("mainCanvas");
     backCanvas = document.getElementById("backCanvas");
@@ -18,6 +16,7 @@ window.onload = function () {
     backCanvas.height = canvasHeight;
 
     gridSize = Math.floor(canvasHeight * 0.1 / 10) * 10;
+    halfGridSize = Math.floor(gridSize / 2);
     gap = Math.floor(gridSize * 0.1 / 10) * 10;
     startX = Math.floor(canvasWidth * 0.5 - gridSize * 3);
     startY = Math.floor(canvasHeight * 0.4);
@@ -25,12 +24,14 @@ window.onload = function () {
     endY = Math.floor(startY + gridSize * 5);
     sub = Math.floor(gridSize / dropSize);
 
+
     if (canvasHeight >= canvasWidth) {
         gridSize = Math.floor(canvasWidth / 6 / 10) * 10;
+        halfGridSize = Math.floor(gridSize / 2);
         gap = Math.floor(gridSize * 0.1 / 10) * 10;
-        endX = canvasWidth;
+        endX = Math.floor(canvasWidth - (canvasWidth - gridSize * 6) / 2);
         endY = Math.floor(canvasHeight * 0.9);
-        startX = 0;
+        startX = Math.floor((canvasWidth - gridSize * 6) / 2);
         startY = Math.floor(endY - gridSize * 5);
         sub = Math.floor(gridSize / dropSize);
     }
@@ -41,12 +42,6 @@ window.onload = function () {
     startBtn.style.left = startX + gridSize * 1.5 + "px";
     startBtn.style.top = Math.floor(canvasHeight * 0.5 - canvasHeight * 0.05) + "px";
     startBtn.style.fontSize = Math.floor(canvasHeight * 0.05) + "px";
-
-    progressBar.style.height = Math.floor(canvasHeight * 0.02) + "px";
-    progressBar.style.width = gridSize * 6 + "px";
-    progressBar.style.left = startX + "px";
-    progressBar.style.top = Math.floor(startY - Math.floor(canvasHeight * 0.02)) + "px";
-    progressBar.style.display = "none";
 
     // add touch event
     mainCanvas.addEventListener('touchstart', function (e) {
@@ -86,7 +81,23 @@ window.onload = function () {
     
     // image src
     backImg = new Image();
+    cursor = new Image();
+    timeBar = new Image();
+    lifeBar = new Image();
+    timeImg = new Image();
+    lifeImg = new Image();
+    musicPlay = new Image();
+    musicPause = new Image();
+
     backImg.src = "image/UI/background.png";
+    cursor.src = "image/UI/cursor.png";
+    timeBar.src = "image/UI/timebar.png";
+    lifeBar.src = "image/UI/lifebar.png";
+    timeImg.src = "image/UI/clock.png";
+    lifeImg.src = "image/UI/heart.png";
+    musicPlay.src = "image/UI/musicPlay.png";
+    musicPause.src = "image/UI/musicPause.png";
+
     for (i = 0; i < 6; ++i)
         beadsImg[i] = new Image();
     beadsImg[0].src = "image/beads/f.png";
@@ -95,6 +106,8 @@ window.onload = function () {
     beadsImg[3].src = "image/beads/l.png";
     beadsImg[4].src = "image/beads/d.png";
     beadsImg[5].src = "image/beads/h.png";
+
+
 
 
 
@@ -119,10 +132,8 @@ window.onload = function () {
 
 function gameStart() {
     startBtn.style.display = "none";
-    progressBar.style.display = "flex";
     createBeads();
     drawBackground();
     drawBeads();
     canPlay = true;
-    bgm.play();
 }

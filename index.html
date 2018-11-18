@@ -13,19 +13,13 @@
     <link rel="stylesheet" type="text/css" href="css/body.css">
     <link rel="stylesheet" type="text/css" href="css/button.css">
     <link rel="stylesheet" type="text/css" href="css/canvas.css">
-    <link rel="stylesheet" type="text/css" href="css/progressBar.css">
 </head>
 
-<body>
+<body>  
     <canvas id="mainCanvas" style="z-index: 10;" onmousemove="mouseMove(event.clientX, event.clientY)" onmousedown="mouseDown(event.clientX, event.clientY)"
         onmouseup="mouseUp()">
     </canvas>
     <canvas id="backCanvas" style="z-index: 0;"></canvas>
-    <div id="progressBar">
-        <div id="progress">
-            <div id="bar"></div>
-        </div>
-    </div>
     <button id="button" style="vertical-align:middle" onclick="gameStart()"><span>Start </span></button>
 </body>
 
