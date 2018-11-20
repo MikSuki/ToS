@@ -54,6 +54,10 @@ function setSize() {
     loadImg.style.display = "block";
 
     divText.style.top = Math.floor(canvasHeight * 0.95 - canvasHeight * 0.05) + "px";
+    
+    if (canvasHeight >= canvasWidth){
+        divText.style.color = "#FFFFFF";
+    }
     divText.style.fontSize = Math.floor(canvasHeight * 0.05) + "px";
 
 
