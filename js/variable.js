@@ -1,9 +1,18 @@
-// button
-var startBtn;
+// ----------html element-----------
+// load Image
+var loadImg;
+// div
+var divText;
+// audio Button
+var audBtn;
+var audImg;
 // canvas
-var mainCanvas, backCanvas;
-var mCtx, bCtx;
+var startCanvas, mainCanvas, backCanvas;
+var sCtx, mCtx, bCtx;
 var canvasWidth, canvasHeight;
+
+
+
 // beads
 // beads * 30
 var beads = [];
@@ -39,6 +48,8 @@ var offsetX, offsetY;
 // which bead move
 var hover = -1;
 // flag
+var isLoad = false;
+var gameStart = false;
 var canPlay = false;
 var isClick = false;
 var isMove = false;
@@ -49,19 +60,8 @@ var dropT = 15;
 // audio
 var audioDic = {};
 var audSrcDic = {};
-var moveAudSrc;
-var comboAud = [];
-var comboMaxAudSrc;
-var cntAudSrc;
-var bgm;
 // image
 var imgDic = {};
-var backImg;
-var beadsImg = [];
-var cursor;
-var timeBar, lifeBar;
-var timeImg, lifeImg;
-var musicPlay, musicPause;
 
 
 var combo = 0;

@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
-
 <head>
     <title>ToS</title>
     <script src="js/variable.js"></script>
     <script src="js/size.js"></script>
     <script src="js/loadFile.js"></script>
+    <script src="js/audio.js"></script>
     <script src="js/bead.js"></script>
     <script src="js/draw.js"></script>
     <script src="js/rule.js"></script>
@@ -13,16 +13,23 @@
     <script src="js/progressBar.js"></script>
     <script src="js/setup.js"></script>
     <link rel="stylesheet" type="text/css" href="css/body.css">
-    <link rel="stylesheet" type="text/css" href="css/button.css">
+    <link rel="stylesheet" type="text/css" href="css/loadImg.css">
+    <link rel="stylesheet" type="text/css" href="css/audBtn.css">
+    <link rel="stylesheet" type="text/css" href="css/text.css">
     <link rel="stylesheet" type="text/css" href="css/canvas.css">
 </head>
 
 <body>  
+    <canvas id="startCanvas" style="z-index: 20;"></canvas>
     <canvas id="mainCanvas" style="z-index: 10;" onmousemove="mouseMove(event.clientX, event.clientY)" onmousedown="mouseDown(event.clientX, event.clientY)"
         onmouseup="mouseUp()">
     </canvas>
     <canvas id="backCanvas" style="z-index: 0;"></canvas>
-    <button id="button" style="vertical-align:middle" onclick="gameStart()"><span>Start </span></button>
+    <img id="loadImg" src="image/UI/load.gif">
+    <div id="text">Tap to start !</div>
+    <button id="audBtn" onclick="audPlay()">
+        <img id="audImg" src="image/UI/musicPlay.png"/>
+    </button>
 </body>
 
 </html>

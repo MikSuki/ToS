@@ -1,7 +1,10 @@
 function load() {
     var i = 0, len1 = 0, len2 = 0;
     var counter1 = 0, counter2 = 0;
-    imgDic["background"] = new Image();
+    var imgOk = false, AudOk = false;
+
+    imgDic['startBack'] = new Image();
+    imgDic["grid"] = new Image();
     imgDic["cursor"] = new Image();
     imgDic["timebar"] = new Image();
     imgDic["lifebar"] = new Image();
@@ -38,7 +41,8 @@ function load() {
     musicPlay.src = "image/UI/musicPlay.png";
     musicPause.src = "image/UI/musicPause.png";*/
 
-    imgDic['background'].src = "image/UI/background.png";
+    imgDic['startBack'].src = "image/UI/startBack.jpg";
+    imgDic['grid'].src = "image/UI/grid.png";
     imgDic['cursor'].src = "image/UI/cursor.png";
     imgDic['timebar'].src = "image/UI/timebar.png";
     imgDic['lifebar'].src = "image/UI/lifebar.png";
@@ -78,12 +82,19 @@ function load() {
         //comboAud[i] = new Audio(source);
         audioDic["comboAud" + (i + 1).toString()] = new Audio("music/combo/combo" + (i + 1).toString() + ".mp3");
     }
+    audioDic["start"] = new Audio("music/bgm/start.mp3");
     audioDic["bgm"] = new Audio("music/bgm/1.mp3");
+
     // repeat
+    audioDic["start"].addEventListener('ended', function () {
+        this.currentTime = 0;
+        this.play();
+    }, false);
     audioDic["bgm"].addEventListener('ended', function () {
         this.currentTime = 0;
         this.play();
     }, false);
+
 
     audSrcDic["comboMax"] = "music/combo/combo10.mp3";
     audSrcDic["moveAud"] = "music/movebeads/1.wav";
@@ -114,11 +125,12 @@ function load() {
 
 
 
-
     function incrementCounter1() {
         ++counter1;
         if (counter1 === len1) {
+            imgOk = true;
             console.log('All Image loaded!');
+            if(imgOk && AudOk) display();
         }
         else
             console.log(counter1);
@@ -127,12 +139,19 @@ function load() {
     function incrementCounter2() {
         ++counter2;
         if (counter2 === len2) {
+            AudOk = true;
             console.log('All Audio loaded!');
+            if(imgOk && AudOk) display();
         }
         else
             console.log(counter2);
     }
 
-
-
+    function display(){
+        isLoad = true;
+        setTimeout((() => {
+            loadImg.style.display = "none";
+            drawStartView();
+        }), 1000);
+    }
 }

@@ -1,3 +1,28 @@
+function start() {
+    if (gameStart) return;
+
+    if(music){
+        var t = 0;
+        var s = setInterval(() => {
+            if(++t > 10){
+                clearInterval(s);
+                audioDic["start"].pause();
+                return;
+            }
+            audioDic["start"].volume -= 0.1;
+        }, 100);
+    }
+
+    gameStart = true;
+    divText.style.display = "none";
+    createBeads();
+    drawGrid();
+    drawBeads();
+    breakStartView();
+}
+
+
+
 function findConnect() {
     var i, j, type, connect;
     // row

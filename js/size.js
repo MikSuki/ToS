@@ -1,15 +1,25 @@
 function setSize() {
+    loadImg = document.getElementById("loadImg");
     startBtn = document.getElementById("button");
-    bar = document.getElementById("bar");
+    divText = document.getElementById("text");
+    audBtn = document.getElementById("audBtn");
+    audImg = document.getElementById("audImg");
+    startCanvas = document.getElementById("startCanvas");
     mainCanvas = document.getElementById("mainCanvas");
     backCanvas = document.getElementById("backCanvas");
 
+    mainCanvas.style.opacity  = 0;
+    backCanvas.style.opacity  = 0;
+
+    sCtx = startCanvas.getContext("2d");
     mCtx = mainCanvas.getContext("2d");
     bCtx = backCanvas.getContext("2d");
 
     // size
     canvasWidth = window.innerWidth;
     canvasHeight = window.innerHeight;
+    startCanvas.width = canvasWidth;
+    startCanvas.height = canvasHeight;
     mainCanvas.width = canvasWidth;
     mainCanvas.height = canvasHeight;
     backCanvas.width = canvasWidth;
@@ -37,9 +47,21 @@ function setSize() {
     }
 
     // UI
-    startBtn.style.height = Math.floor(canvasHeight * 0.1) + "px";
-    startBtn.style.width = gridSize * 3 + "px";
-    startBtn.style.left = startX + gridSize * 1.5 + "px";
-    startBtn.style.top = Math.floor(canvasHeight * 0.5 - canvasHeight * 0.05) + "px";
-    startBtn.style.fontSize = Math.floor(canvasHeight * 0.05) + "px";
+    loadImg.style.height = Math.floor(canvasHeight * 0.1) + "px";
+    loadImg.style.width = Math.floor(canvasHeight * 0.1) + "px";
+    loadImg.style.left = Math.floor(canvasWidth * 0.5 - canvasHeight * 0.05) + "px";
+    loadImg.style.top = Math.floor(canvasHeight * 0.85 - canvasHeight * 0.05) + "px";
+    loadImg.style.display = "block";
+
+    divText.style.top = Math.floor(canvasHeight * 0.95 - canvasHeight * 0.05) + "px";
+    divText.style.fontSize = Math.floor(canvasHeight * 0.05) + "px";
+
+
+    audBtn.style.left = Math.floor(endX - gridSize) + "px";
+    audBtn.style.top = gridSize + "px";
+    audImg.style.width = halfGridSize + "px";
+    audImg.style.height = halfGridSize + "px";
+    audBtn.style.display = "block";
+
+
 }
