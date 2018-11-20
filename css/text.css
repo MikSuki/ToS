@@ -4,6 +4,7 @@
   }
 
 #text {
+    outline:none;
     position: fixed;
     display: none;
     width: 100%;

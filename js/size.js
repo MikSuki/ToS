@@ -40,7 +40,7 @@ function setSize() {
         halfGridSize = Math.floor(gridSize / 2);
         gap = Math.floor(gridSize * 0.1 / 10) * 10;
         endX = Math.floor(canvasWidth - (canvasWidth - gridSize * 6) / 2);
-        endY = Math.floor(canvasHeight - (canvasWidth - gridSize * 6));
+        endY = Math.floor(canvasHeight * 0.95 - (canvasWidth - gridSize * 6));
         startX = Math.floor((canvasWidth - gridSize * 6) / 2);
         startY = Math.floor(endY - gridSize * 5);
         sub = Math.floor(gridSize / dropSize);
@@ -61,7 +61,6 @@ function setSize() {
     audBtn.style.top = gridSize + "px";
     audImg.style.width = halfGridSize + "px";
     audImg.style.height = halfGridSize + "px";
-    audBtn.style.display = "block";
 
 
 }

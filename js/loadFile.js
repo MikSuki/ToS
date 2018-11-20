@@ -41,7 +41,7 @@ function load() {
     musicPlay.src = "image/UI/musicPlay.png";
     musicPause.src = "image/UI/musicPause.png";*/
 
-    imgDic['startBack'].src = "image/UI/startBack.jpg";
+    imgDic['startBack'].src = (canvasWidth > canvasHeight) ? "image/UI/startBack.jpg" : "image/UI/startBackPhone.jpg";
     imgDic['grid'].src = "image/UI/grid.png";
     imgDic['cursor'].src = "image/UI/cursor.png";
     imgDic['timebar'].src = "image/UI/timebar.png";
@@ -151,6 +151,7 @@ function load() {
         isLoad = true;
         setTimeout((() => {
             loadImg.style.display = "none";
+            audBtn.style.display = "block";
             drawStartView();
         }), 1000);
     }

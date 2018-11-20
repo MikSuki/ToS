@@ -1,6 +1,5 @@
 function drawStartView() {
     var t = 0;
-    var f = true;
     if (canvasWidth > canvasHeight) {
         var h = canvasHeight;
         var w = Math.floor(h / 492 * 900);
@@ -8,9 +7,10 @@ function drawStartView() {
         var y = 0;
     }
     else {
-        f = false;
-        var l = Math.floor(450 - canvasWidth / 2);
-        var r = Math.floor(450 + canvasWidth / 2);
+        var w = canvasWidth;
+        var h = Math.floor(w / 640 * 960);
+        var y = Math.floor((canvasHeight - h) / 2);
+        var x = 0;
     }
 
     sCtx.fillStyle = "#000000";
@@ -25,10 +25,7 @@ function drawStartView() {
         sCtx.fillRect(0, 0, canvasWidth, canvasHeight);;
         sCtx.globalAlpha = 0.025 * t;
 
-        if (f)
-            sCtx.drawImage(imgDic['startBack'], x, y, w, h);
-        else
-            sCtx.drawImage(imgDic['startBack'], l, 0, r, canvasHeight, 0, 0, canvasWidth, canvasHeight);
+        sCtx.drawImage(imgDic['startBack'], x, y, w, h);
     }, 50);
 
 }
