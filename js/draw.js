@@ -1,11 +1,11 @@
 // UI
 function drawBackground() {
-    bCtx.drawImage(backImg, startX, startY, gridSize * 4, gridSize * 4);
-    bCtx.drawImage(backImg, 0, 0, 168, 168, startX + gridSize * 4, startY, gridSize * 2, gridSize * 2);
-    bCtx.drawImage(backImg, 0, 0, 168, 168, startX + gridSize * 4, startY + gridSize * 2, gridSize * 2, gridSize * 2);
-    bCtx.drawImage(backImg, 0, 0, 168, 84, startX, startY + gridSize * 4, gridSize * 2, gridSize);
-    bCtx.drawImage(backImg, 0, 0, 168, 84, startX +  + gridSize * 2, startY + gridSize * 4, gridSize * 2, gridSize);
-    bCtx.drawImage(backImg, 0, 0, 168, 84, startX + gridSize * 4, startY + gridSize * 4, gridSize * 2, gridSize);
+    bCtx.drawImage(imgDic['background'], startX, startY, gridSize * 4, gridSize * 4);
+    bCtx.drawImage(imgDic['background'], 0, 0, 168, 168, startX + gridSize * 4, startY, gridSize * 2, gridSize * 2);
+    bCtx.drawImage(imgDic['background'], 0, 0, 168, 168, startX + gridSize * 4, startY + gridSize * 2, gridSize * 2, gridSize * 2);
+    bCtx.drawImage(imgDic['background'], 0, 0, 168, 84, startX, startY + gridSize * 4, gridSize * 2, gridSize);
+    bCtx.drawImage(imgDic['background'], 0, 0, 168, 84, startX +  + gridSize * 2, startY + gridSize * 4, gridSize * 2, gridSize);
+    bCtx.drawImage(imgDic['background'], 0, 0, 168, 84, startX + gridSize * 4, startY + gridSize * 4, gridSize * 2, gridSize);
     drawBar(0, 1);
     drawMusic();
 }
@@ -14,13 +14,14 @@ function drawBar(w, mode) {
     var w = (!w) ? gridSize * 6 : w;
     var h = Math.floor(gridSize * 6 / 15);
     clearBar();
+    
     if(mode){
-        bCtx.drawImage(lifeBar, startX, startY - h, w, h);
-        bCtx.drawImage(lifeImg, startX, startY - h * 1.75, h * 2, h * 2);
+        bCtx.drawImage(imgDic['lifebar'], startX, startY - h, w, h);
+        bCtx.drawImage(imgDic['heart'], startX, startY - h * 1.75, h * 2, h * 2);
     }
     else {
-        bCtx.drawImage(timeBar, startX, startY - h, w, h);
-        bCtx.drawImage(timeImg, startX, startY - h * 1.75, h * 2, h * 2);
+        bCtx.drawImage(imgDic['timebar'], startX, startY - h, w, h);
+        bCtx.drawImage(imgDic['clock'], startX, startY - h * 1.75, h * 2, h * 2);
     }
 }
 
@@ -28,18 +29,19 @@ function clearBar(){
     var w = gridSize * 6;
     var h = Math.floor(w / 15);
     bCtx.clearRect(startX, startY - h, w, h);
+    bCtx.clearRect(startX, startY - h * 1.75, h * 2, h);
 }
 
 function drawMusic(){
     music = ~music;
     bCtx.clearRect(endX - gridSize, gridSize, halfGridSize, halfGridSize);
     if(music){
-        bCtx.drawImage(musicPause, endX - gridSize, gridSize, halfGridSize, halfGridSize);
-        bgm.play();
+        bCtx.drawImage(imgDic['musicPause'], endX - gridSize, gridSize, halfGridSize, halfGridSize);
+        audioDic["bgm"].play();
     }
     else{
-        bCtx.drawImage(musicPlay, endX - gridSize, gridSize, halfGridSize, halfGridSize);
-        bgm.pause();
+        bCtx.drawImage(imgDic['musicPlay'], endX - gridSize, gridSize, halfGridSize, halfGridSize);
+        audioDic["bgm"].pause();
     }
 }
 
@@ -49,7 +51,7 @@ function drawMusic(){
 // beads
 function drawBeads() {
     for (var i = 0; i < 6; ++i) {
-        var img = beadsImg[i];
+        var img = imgDic['bead' + i.toString()];
         for (var j = 0; j < 30; ++j) {
             if (j === hover)
                 continue;
@@ -59,7 +61,7 @@ function drawBeads() {
         }
     }
     if (isClick) {
-        var img = beadsImg[clickedBead.type];
+        var img = imgDic['bead' + (clickedBead.type).toString()];
         mCtx.globalAlpha = 0.3;
         mCtx.drawImage(img, beads[hover].x , beads[hover].y , gridSize, gridSize);
         mCtx.globalAlpha = 1;
@@ -77,7 +79,7 @@ function drawDropBeads() {
         }
     }
     for (i = 0; i < 6; ++i) {
-        var img = beadsImg[i];
+        var img = imgDic['bead' + i.toString()];
         for (j = 0; j < 6; ++j) {
             var len = dropBeads[j].length;
             var x = beads[j].x ;
@@ -103,7 +105,7 @@ function drawNewBeads() {
     }
 
     for (i = 0; i < 6; ++i) {
-        var img = beadsImg[i];
+        var img = imgDic['bead' + i.toString()];
         for (j = 0; j < 6; ++j) {
             var len = newBeads[j].length;
             var x = beads[j].x ;
@@ -127,10 +129,10 @@ function drawMove() {
     mCtx.clearRect(startX, startY, endX, endY);
     drawBeads();
     mCtx.globalAlpha = 0.5;
-    var img = beadsImg[clickedBead.type];
+    var img = imgDic['bead' + (clickedBead.type).toString()];
     mCtx.drawImage(img, x, y, gridSize, gridSize);
     mCtx.globalAlpha = 1;
-    mCtx.drawImage(cursor, x, y);
+    mCtx.drawImage(imgDic['cursor'], x, y);
 }
 
 // redraw when input up or out 
@@ -141,7 +143,7 @@ function drawUp() {
     mCtx.clearRect(x - gridSize * 2, y - gridSize * 2, gridSize * 4, gridSize * 4);
     mCtx.clearRect(startX, startY, endX, endY);
     drawBeads();
-    var img = beadsImg[beads[hover].type];
+    var img = imgDic['bead' + (beads[hover].type).toString()];
     mCtx.drawImage(img, x, y, gridSize, gridSize);
 }
 

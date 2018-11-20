@@ -47,12 +47,15 @@ var music = false;
 var clearT = 300;
 var dropT = 15;
 // audio
+var audioDic = {};
+var audSrcDic = {};
 var moveAudSrc;
 var comboAud = [];
 var comboMaxAudSrc;
 var cntAudSrc;
 var bgm;
 // image
+var imgDic = {};
 var backImg;
 var beadsImg = [];
 var cursor;

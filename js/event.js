@@ -1,3 +1,21 @@
+function addTL() {
+    mainCanvas.addEventListener('touchstart', function (e) {
+        event.preventDefault();
+        mouseDown(e.touches[0].clientX, e.touches[0].clientY);
+    }
+        , true);
+    mainCanvas.addEventListener('touchmove', function (e) {
+        event.preventDefault();
+        mouseMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
+        , true);
+    mainCanvas.addEventListener('touchend', function () {
+        event.preventDefault();
+        mouseUp();
+    }
+        , true);
+}
+
 function mouseDown(x, y) {
     var mousePosX = Math.floor(x);
     var mousePosY = Math.floor(y);
@@ -17,9 +35,9 @@ function mouseDown(x, y) {
 
         drawMove();
     }
-    else if(mousePosX > (endX - gridSize) && mousePosX < (endX - halfGridSize)
+    else if (mousePosX > (endX - gridSize) && mousePosX < (endX - halfGridSize)
         && mousePosY > gridSize && mousePosY < (gridSize + halfGridSize))
-            drawMusic();
+        drawMusic();
 }
 
 
@@ -39,14 +57,14 @@ function mouseMove(x, y) {
         hover = x + y;
         if (hover != lastHover) {
             // isMove , so  time is counting down
-            if(!isMove){
+            if (!isMove) {
                 isMove = true;
                 pBMove();
             }
             var temp = beads[lastHover].type;
             beads[lastHover].type = beads[hover].type;
             beads[hover].type = temp;
-            new Audio(moveAudSrc).play();
+            new Audio(audSrcDic["moveAud"]).play();
         }
         drawMove();
     }
@@ -56,10 +74,10 @@ function mouseMove(x, y) {
 
 function mouseUp() {
     if (canPlay || !isClick) return;
-    if(!isMove) {
+    if (!isMove) {
         drawUp();
         isClick = false;
-        canPlay = true; 
+        canPlay = true;
         return;
     }
     isClick = false;

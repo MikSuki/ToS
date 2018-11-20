@@ -49,7 +49,7 @@ function findEachClear() {
     var dirArr;
     var s = setInterval(function () {
         // first, find one of col or row need to clear
-        while (!(l1 = row[i].length ) && !(l2 = col[i].length)) {
+        while (!(l1 = row[i].length) && !(l2 = col[i].length)) {
             if (++i >= 6) {
                 clearInterval(s);
                 calDrop();
@@ -139,13 +139,13 @@ function findEachClear() {
         drawClear(thisClear);
         // play music
         if (thisClear.length >= 5)
-            new Audio(cntAudSrc).play();
+            new Audio(audSrcDic["cntAud"]).play();
         ++combo;
         if (combo < 10) {
-            comboAud[combo - 1].play();
+            audioDic["comboAud" + combo.toString()].play();
         }
         else
-            new Audio(comboMaxAudSrc).play();
+            new Audio(audSrcDic["comboMax"]).play();
 
         thisClear = [];
     }, clearT);
