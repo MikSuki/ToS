@@ -132,8 +132,6 @@ function load() {
             console.log('All Image loaded!');
             if(imgOk && AudOk) display();
         }
-        else
-            console.log(counter1);
     }
 
     function incrementCounter2() {
@@ -143,8 +141,6 @@ function load() {
             console.log('All Audio loaded!');
             if(imgOk && AudOk) display();
         }
-        else
-            console.log(counter2);
     }
 
     function display(){

@@ -26,7 +26,7 @@ function drawStartView() {
         sCtx.globalAlpha = 0.025 * t;
 
         sCtx.drawImage(imgDic['startBack'], x, y, w, h);
-    }, 50);
+    }, 5.0);
 
 }
 
@@ -35,15 +35,15 @@ function breakStartView() {
     var s = setInterval(() => {
         if (++t > 41) {
             startCanvas.style.display = "none";
-            startGameView()
+            drawGameView()
             clearInterval(s);
             return;
         }
         startCanvas.style.opacity  = 1 - 0.025 * t;
-    }, 75);
+    }, 7.5);
 }
 
-function startGameView(){
+function drawGameView(){
     var t = 0;
     audioDic["start"].pause();
     var s = setInterval(() => {

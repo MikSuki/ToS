@@ -80,5 +80,5 @@ function mouseUp() {
     isClick = false;
     isMove = false;
     drawUp();
-    findConnect();
+    ruleStart();
 }

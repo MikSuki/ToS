@@ -1,10 +1,10 @@
 function start() {
     if (gameStart) return;
 
-    if(music){
+    if (music) {
         var t = 0;
         var s = setInterval(() => {
-            if(++t > 10){
+            if (++t > 10) {
                 clearInterval(s);
                 audioDic["start"].pause();
                 return;
@@ -57,11 +57,10 @@ function findConnect() {
         }
         pushArr(j, type, connect, 1);
     }
-    if (clearFlag)
-        findEachClear();
-    else {
+    if(!clearFlag) {
         canPlay = true;
         combo = 0;
+        throw('no connect');
     }
 }
 
@@ -72,108 +71,110 @@ function findEachClear() {
     // dir : 1 -> col , -1 -> row
     var dir;
     var dirArr;
-    var s = setInterval(function () {
-        // first, find one of col or row need to clear
-        while (!(l1 = row[i].length) && !(l2 = col[i].length)) {
-            if (++i >= 6) {
-                clearInterval(s);
-                calDrop();
-                return;
+    return new Promise(r => {
+        var s = setInterval(function () {
+            // first, find one of col or row need to clear
+            while (!(l1 = row[i].length) && !(l2 = col[i].length)) {
+                if (++i >= 6) {
+                    clearInterval(s);
+                    r();
+                    return;
+                }
             }
-        }
-        l1 = (row[i][0]) ? row[i][0].length : 0;
-        l2 = (col[i][0]) ? col[i][0].length : 0;
-        if (l1) {
-            for (j = 0; j < l1; ++j)
-                thisClear.push(row[i][0][j]);
-            dir = 1;
-            row[i].splice(0, 1);
-        }
-        else {
-            for (j = 0; j < l2; ++j)
-                thisClear.push(col[i][0][j]);
-            dir = -1;
-            col[i].splice(0, 1);
-        }
-        // find has any connect with thisclear ?
-        var flag = true;
-        // is any thisClear[row] conect col  or  thisClear[col] connect row ?
-        while (flag) {
-            flag = false;
-            dirArr = (dir) ? col[i] : row[i];
-            if (!dirArr) break;
+            l1 = (row[i][0]) ? row[i][0].length : 0;
+            l2 = (col[i][0]) ? col[i][0].length : 0;
+            if (l1) {
+                for (j = 0; j < l1; ++j)
+                    thisClear.push(row[i][0][j]);
+                dir = 1;
+                row[i].splice(0, 1);
+            }
+            else {
+                for (j = 0; j < l2; ++j)
+                    thisClear.push(col[i][0][j]);
+                dir = -1;
+                col[i].splice(0, 1);
+            }
+            // find has any connect with thisclear ?
+            var flag = true;
+            // is any thisClear[row] conect col  or  thisClear[col] connect row ?
+            while (flag) {
+                flag = false;
+                dirArr = (dir) ? col[i] : row[i];
+                if (!dirArr) break;
 
-            l1 = thisClear.length;
-            for (j = 0; j < l1; ++j) {
-                var val = thisClear[j];
-                var l2 = dirArr.length;
-                for (k = 0; k < l2; ++k) {
-                    l3 = (dirArr[k]) ? dirArr[k].length : 0;
-                    for (l = 0; l < l3; ++l) {
-                        if (val === dirArr[k][l]) {
-                            for (var m = 0; m < l3; ++m)
-                                thisClear.push(dirArr[k][m]);
-                            dirArr.splice(k, 1);
+                l1 = thisClear.length;
+                for (j = 0; j < l1; ++j) {
+                    var val = thisClear[j];
+                    var l2 = dirArr.length;
+                    for (k = 0; k < l2; ++k) {
+                        l3 = (dirArr[k]) ? dirArr[k].length : 0;
+                        for (l = 0; l < l3; ++l) {
+                            if (val === dirArr[k][l]) {
+                                for (var m = 0; m < l3; ++m)
+                                    thisClear.push(dirArr[k][m]);
+                                dirArr.splice(k, 1);
 
-                            flag = true;
-                            break;
+                                flag = true;
+                                break;
+                            }
                         }
                     }
                 }
             }
-        }
-        // is any row or col next to thisClear ?
-        flag = 2
-        while (flag) {
-            if (flag === 2)
-                dirArr = row[i];
-            else
-                dirArr = col[i];
+            // is any row or col next to thisClear ?
+            flag = 2
+            while (flag) {
+                if (flag === 2)
+                    dirArr = row[i];
+                else
+                    dirArr = col[i];
 
-            if (!dirArr) {
+                if (!dirArr) {
+                    --flag;
+                    continue;
+                }
+
+                l1 = thisClear.length;
+                for (j = 0; j < l1; ++j) {
+                    var val1 = thisClear[j];
+                    var l2 = dirArr.length;
+                    for (k = 0; k < l2; ++k) {
+                        var l3 = (dirArr[k]) ? dirArr[k].length : 0;
+                        for (l = 0; l < l3; ++l) {
+                            var val2 = dirArr[k][l];
+                            var diff = Math.abs(val1 - val2);
+                            if ((diff === 6)
+                                // diff = 1 , check is not col 0  and col5
+                                || (diff === 1 && !(((val1 % 6) == 0 && (val2 % 6) == 5) || ((val1 % 6) == 5 && (val2 % 6) == 0)))) {
+
+                                for (var m = 0; m < l3; ++m)
+                                    thisClear.push(dirArr[k][m]);
+
+                                dirArr.splice(k, 1);
+                                ++flag;
+                                break;
+                            }
+                        }
+                    }
+                }
                 --flag;
-                continue;
             }
-
-            l1 = thisClear.length;
-            for (j = 0; j < l1; ++j) {
-                var val1 = thisClear[j];
-                var l2 = dirArr.length;
-                for (k = 0; k < l2; ++k) {
-                    var l3 = (dirArr[k]) ? dirArr[k].length : 0;
-                    for (l = 0; l < l3; ++l) {
-                        var val2 = dirArr[k][l];
-                        var diff = Math.abs(val1 - val2);
-                        if ((diff === 6)
-                            // diff = 1 , check is not col 0  and col5
-                            || (diff === 1 && !(((val1 % 6) == 0 && (val2 % 6) == 5) || ((val1 % 6) == 5 && (val2 % 6) == 0)))) {
-
-                            for (var m = 0; m < l3; ++m)
-                                thisClear.push(dirArr[k][m]);
-
-                            dirArr.splice(k, 1);
-                            ++flag;
-                            break;
-                        }
-                    }
-                }
+            // clear canvas
+            drawClear(thisClear);
+            // play music
+            if (thisClear.length >= 5)
+                new Audio(audSrcDic["cntAud"]).play();
+            ++combo;
+            if (combo < 10) {
+                audioDic["comboAud" + combo.toString()].play();
             }
-            --flag;
-        }
-        // clear canvas
-        drawClear(thisClear);
-        // play music
-        if (thisClear.length >= 5)
-            new Audio(audSrcDic["cntAud"]).play();
-        ++combo;
-        if (combo < 10) {
-            audioDic["comboAud" + combo.toString()].play();
-        }
-        else
-            new Audio(audSrcDic["comboMax"]).play();
+            else
+                new Audio(audSrcDic["comboMax"]).play();
 
-        thisClear = [];
-    }, clearT);
+            thisClear = [];
+        }, clearT)
+    });
 }
 
 // calculate original beads fall and new beads drop down
@@ -227,16 +228,18 @@ function calDrop() {
 
     tT = max * dropSize;
 
-    var s = setInterval(() => {
-        if (++t >= tT) {
-            clearInterval(s);
-            buildBeads();
-            return;
-        }
-        if (!(t % 5)) dropT -= 2.5;
-        drawDropBeads();
-        drawNewBeads();
-    }, dropT);
+    return new Promise(r => {
+        var s = setInterval(() => {
+            if (++t >= tT) {
+                clearInterval(s);
+                r();
+                return;
+            }
+            if (!(t % 5)) dropT -= 2.5;
+            drawDropBeads();
+            drawNewBeads();
+        }, dropT)
+    });
 
 
 }
@@ -264,7 +267,6 @@ function buildBeads() {
             --j;
         }
     }
-    allClear();
 }
 
 function allClear() {
@@ -278,8 +280,6 @@ function allClear() {
     }
     clearFlag = false;
     dropT = 15;
-    // find again
-    findConnect();
 }
 
 //dir: row -> 0, col -> 1
