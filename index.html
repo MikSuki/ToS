@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
+
 <head>
     <title>ToS</title>
     <script src="js/variable.js"></script>
     <script src="js/size.js"></script>
-    <script src="js/loadFile.js"></script>
+    <script src="js/file.js"></script>
     <script src="js/audio.js"></script>
     <script src="js/bead.js"></script>
     <script src="js/draw.js"></script>
@@ -20,16 +21,16 @@
     <link rel="stylesheet" type="text/css" href="css/canvas.css">
 </head>
 
-<body>  
+<body>
     <canvas id="startCanvas" style="z-index: 20;"></canvas>
-    <canvas id="mainCanvas" style="z-index: 10;" onmousemove="mouseMove(event.clientX, event.clientY)" onmousedown="mouseDown(event.clientX, event.clientY)"
-        onmouseup="mouseUp()">
-    </canvas>
+    <div id='beadsGroup' style="z-index: 100;" onmousemove="mouseMove(event.clientX, event.clientY)"
+        onmousedown="mouseDown(event.clientX, event.clientY)" onmouseup="mouseUp()">
+    </div>
     <canvas id="backCanvas" style="z-index: 0;"></canvas>
     <img id="loadImg" src="image/UI/load.gif">
     <div id="text">Tap to start !</div>
     <button id="audBtn" onclick="audPlay()">
-        <img id="audImg" src="image/UI/musicPlay.png"/>
+        <img id="audImg" src="image/UI/musicPlay.png" />
     </button>
 </body>
 
