@@ -15,9 +15,9 @@ function start() {
 
     gameStart = true;
     divText.style.display = "none";
-    createBeads();
+    initBeads();
     drawGrid();
-    drawBeads();
+    drawMiku()
     breakStartView();
 }
 
@@ -57,10 +57,10 @@ function findConnect() {
         }
         pushArr(j, type, connect, 1);
     }
-    if(!clearFlag) {
+    if (!clearFlag) {
         canPlay = true;
         combo = 0;
-        throw('no connect');
+        throw ('no connect');
     }
 }
 
@@ -162,6 +162,7 @@ function findEachClear() {
             }
             // clear canvas
             drawClear(thisClear);
+            drawBoom(thisClear)
             // play music
             if (thisClear.length >= 5)
                 new Audio(audSrcDic["cntAud"]).play();
@@ -191,23 +192,31 @@ function calDrop() {
         var index = i - 6 * j;
         if (!beads[index].isClear) {
             if (k !== 0) {
-                var bead = {
+                // -------------
+                // TODO: del type
+                // -------------
+                dropBeads[i % 6].push({
                     type: beads[index].type,
+                    img: beads[index].img,
                     y: beads[index].y + sub,
                     dropGrid: k * dropSize - 1
-                };
-                dropBeads[i % 6].push(bead);
+                });
             }
         }
         else {
             ++k;
+            var type = Math.floor((Math.random() * beadTypes))
             var bead = {
-                type: Math.floor((Math.random() * beadTypes)),
+                type: type,
+                img: createBead(0, type),
                 y: beads[0].y - gridSize * k + sub,
                 dropGrid: 0
             };
-            newBeads[i % 6].push(bead);
+            bead.img.style.left = beads[i % 6].x + 'px'
+            bead.img.style.top = bead.y + 'px'
             beads[index].isClear = false;
+
+            newBeads[i % 6].push(bead);
         }
 
         if (++j > 4) {
@@ -227,6 +236,7 @@ function calDrop() {
     }
 
     tT = max * dropSize;
+
 
     return new Promise(r => {
         var s = setInterval(() => {
@@ -258,7 +268,9 @@ function buildBeads() {
         j = clearNum[i] - 1;
 
         while (j >= 0) {
-            beads[i + j * 6].type = arr[k++].type;
+            beads[i + j * 6].type = arr[k].type;
+            //beads[i + j * 6].img.parentNode.removeChild(beads[i + j * 6].img)
+            beads[i + j * 6].img = arr[k++].img;
             if (!arr[k]) {
                 k = 0;
                 arr = newBeads[i];

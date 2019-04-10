@@ -5,14 +5,13 @@ function setSize() {
     audBtn = document.getElementById("audBtn");
     audImg = document.getElementById("audImg");
     startCanvas = document.getElementById("startCanvas");
-    mainCanvas = document.getElementById("mainCanvas");
     backCanvas = document.getElementById("backCanvas");
+    beadsGroup = document.getElementById("beadsGroup");
 
-    mainCanvas.style.opacity  = 0;
+    beadsGroup.style.opacity  = 0;
     backCanvas.style.opacity  = 0;
 
     sCtx = startCanvas.getContext("2d");
-    mCtx = mainCanvas.getContext("2d");
     bCtx = backCanvas.getContext("2d");
 
     // size
@@ -20,8 +19,6 @@ function setSize() {
     canvasHeight = window.innerHeight;
     startCanvas.width = canvasWidth;
     startCanvas.height = canvasHeight;
-    mainCanvas.width = canvasWidth;
-    mainCanvas.height = canvasHeight;
     backCanvas.width = canvasWidth;
     backCanvas.height = canvasHeight;
 

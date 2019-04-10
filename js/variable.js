@@ -7,7 +7,8 @@ var divText;
 var audBtn;
 var audImg;
 // canvas
-var startCanvas, mainCanvas, backCanvas;
+var beadsGroup
+var startCanvas, backCanvas;
 var sCtx, mCtx, bCtx;
 var canvasWidth, canvasHeight;
 
@@ -20,6 +21,8 @@ var newBeads = [];
 // original beads which need to drop down
 var dropBeads = [];
 var beadTypes = 6;
+const clickZ = 150
+const normalZ = 100
 // clear
 var row = [];
 var col = [];
@@ -44,6 +47,7 @@ var clickedBead = {
     x: 0,
     y: 0
 };
+var transparentBead;
 var offsetX, offsetY;
 // which bead move
 var hover = -1;
@@ -56,12 +60,14 @@ var isMove = false;
 var music = false;
 // interval time
 var clearT = 300;
-var dropT = 15;
+var dropT = 20;
+const boomT = 10
 // audio
 var audioDic = {};
 var audSrcDic = {};
 // image
 var imgDic = {};
-
+var beadImgsSrc = [];
+var c;
 
 var combo = 0;
