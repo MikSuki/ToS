@@ -4,6 +4,7 @@ function setSize() {
     divText = document.getElementById("text");
     audBtn = document.getElementById("audBtn");
     audImg = document.getElementById("audImg");
+    blackCanvas = document.getElementById("blackCanvas");
     startCanvas = document.getElementById("startCanvas");
     backCanvas = document.getElementById("backCanvas");
     beadsGroup = document.getElementById("beadsGroup");
@@ -17,6 +18,9 @@ function setSize() {
     // size
     canvasWidth = window.innerWidth;
     canvasHeight = window.innerHeight;
+    blackCanvas.width = canvasWidth;
+    blackCanvas.height = canvasHeight;
+    blackCanvas.style.opacity = 0;
     startCanvas.width = canvasWidth;
     startCanvas.height = canvasHeight;
     backCanvas.width = canvasWidth;
@@ -64,4 +68,18 @@ function setSize() {
     audImg.style.height = halfGridSize + "px";
 
 
+
+    cheatSettingBtn = document.getElementById('cheatSettingBtn')
+    cheatBtn = document.getElementById('cheatBtn')
+
+    cheatSettingBtn.style.left = startX + "px";
+    cheatSettingBtn.style.top = Math.floor(canvasHeight * 0.1) + "px";
+    cheatSettingBtn.style.borderRadius = Math.floor(canvasHeight * 0.05) + "px";
+
+    cheatBtn.style.left = startX + "px";
+    cheatBtn.style.top = Math.floor(canvasHeight * 0.2) + "px";
+    cheatBtn.style.borderRadius = Math.floor(canvasHeight * 0.05) + "px";
+
+    cheatSettingBtn.style.display = 'none'
+    cheatBtn.style.display = 'none'
 }

@@ -6,9 +6,12 @@ var divText;
 // audio Button
 var audBtn;
 var audImg;
+// cheat
+var cheatSettingBtn;
+var cheatBtn;
 // canvas
 var beadsGroup
-var startCanvas, backCanvas;
+var blackCanvas, startCanvas, backCanvas;
 var sCtx, mCtx, bCtx;
 var canvasWidth, canvasHeight;
 

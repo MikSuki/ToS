@@ -15,16 +15,15 @@ function drawStartView() {
 
     sCtx.fillStyle = "#000000";
     var s = setInterval(() => {
-        if (++t > 41) {
+        if (++t > 31) {
             clearInterval(s);
             divText.style.display = "block";
             startCanvas.addEventListener("click", start);
             return;
         }
         sCtx.globalAlpha = 1;
-        sCtx.fillRect(0, 0, canvasWidth, canvasHeight);;
-        sCtx.globalAlpha = 0.025 * t;
-
+        sCtx.fillRect(0, 0, canvasWidth, canvasHeight);
+        sCtx.globalAlpha = 0.04 * t;
         sCtx.drawImage(imgDic['startBack'], x, y, w, h);
     }, 50);
 
@@ -33,13 +32,15 @@ function drawStartView() {
 function breakStartView() {
     var t = 0;
     var s = setInterval(() => {
-        if (++t > 41) {
+        if (++t > 31) {
             startCanvas.style.display = "none";
+            blackCanvas.style.opacity = 1;
             drawGameView()
             clearInterval(s);
             return;
         }
-        startCanvas.style.opacity = 1 - 0.025 * t;
+        startCanvas.style.opacity = 1 - 0.04 * t;
+        blackCanvas.style.opacity = 0.04 * t;
     }, 75);
 }
 
@@ -53,15 +54,18 @@ function drawGameView() {
             setTimeout(() => {
                 beadsGroup.style.opacity = 1;
                 backCanvas.style.opacity = 1;
+                blackCanvas.style.opacity = 0;
                 if (music) audioDic["bgm"].play();
                 gameStart = true;
                 canPlay = true;
+                particleStart();
             }, 500);
             clearInterval(s);
             return;
         }
         beadsGroup.style.opacity = 0.05 * t;
         backCanvas.style.opacity = 0.05 * t;
+        blackCanvas.style.opacity = 1 - 0.05 * t;
     }, 60);
 }
 
