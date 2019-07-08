@@ -20,7 +20,9 @@ function addTL() {
 function mouseDown(x, y) {
     var mousePosX = Math.floor(x);
     var mousePosY = Math.floor(y);
-    
+
+    if (gameStart) addClkPars(x, y)
+
     if (canPlay && mousePosX > startX && mousePosX < endX
         && mousePosY > startY && mousePosY < endY) {
         var i = Math.floor(((mousePosX - startX) / gridSize)) + Math.floor(((mousePosY - startY) / gridSize)) * 6;
@@ -41,6 +43,7 @@ function mouseDown(x, y) {
 
 
 function mouseMove(x, y) {
+    if (gameStart) addMvPars(x, y)
     if (!isClick) return;
     var mousePosX = Math.floor(x);
     var mousePosY = Math.floor(y);

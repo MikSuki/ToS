@@ -12,11 +12,12 @@
     <script src="js/rule.js"></script>
     <script src="js/cheat.js"></script>
     <script src="js/promise.js"></script>
-    <script src="js/event.js"></script>
     <script src="js/progressBar.js"></script>
     <script src="js/particle.js"></script>
+    <script src="js/event.js"></script>
     <script src="js/main.js"></script>
     <link rel="stylesheet" type="text/css" href="css/body.css">
+    <link rel="stylesheet" type="text/css" href="css/img.css">
     <link rel="stylesheet" type="text/css" href="css/loadImg.css">
     <link rel="stylesheet" type="text/css" href="css/audBtn.css">
     <link rel="stylesheet" type="text/css" href="css/cheatBtn.css">
@@ -25,13 +26,15 @@
 </head>
 
 <body>
-    <canvas id="blackCanvas" style="z-index: 0; background-color: black;"></canvas>
-    <canvas id="startCanvas" style="z-index: 20;"></canvas>
-    <div id='beadsGroup' style="z-index: 100;" onmousemove="mouseMove(event.clientX, event.clientY)"
-        onmousedown="mouseDown(event.clientX, event.clientY)" onmouseup="mouseUp()">
-    </div>
+    <canvas id="blackCanvas" style="z-index: 0;"></canvas>
     <canvas id="backParticleCanvas" style="z-index: 5;"></canvas>
     <canvas id="backCanvas" style="z-index: 10;"></canvas>
+    <canvas id="startCanvas" style="z-index: 20;"></canvas>
+    <canvas id="topCanvas" style="z-index: 1000; display: none;" onmousemove="mouseMove(event.clientX, event.clientY)"
+        onmousedown="mouseDown(event.clientX, event.clientY)" onmouseup="mouseUp()"></canvas>
+    <div id='beadsGroup' style="z-index: 100;">
+    </div>
+
     <img id="loadImg" src="image/UI/load.gif">
     <div id="text">Tap to start !</div>
     <button id="audBtn" onclick="audPlay()">

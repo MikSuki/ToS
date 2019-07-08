@@ -8,23 +8,34 @@ function setSize() {
     startCanvas = document.getElementById("startCanvas");
     backCanvas = document.getElementById("backCanvas");
     beadsGroup = document.getElementById("beadsGroup");
+    backParticleCanvas = document.getElementById("backParticleCanvas");
+    topCanvas = document.getElementById("topCanvas");
 
     beadsGroup.style.opacity  = 0;
     backCanvas.style.opacity  = 0;
+    blackCanvas.style.backgroundColor = 'black';
+    blackCanvas.style.opacity = 0;
+    topCanvas.style.opacity  = 0;
 
     sCtx = startCanvas.getContext("2d");
     bCtx = backCanvas.getContext("2d");
-
+    bpCtx = backParticleCanvas.getContext("2d");
+    tCtx = topCanvas.getContext("2d");
     // size
     canvasWidth = window.innerWidth;
     canvasHeight = window.innerHeight;
     blackCanvas.width = canvasWidth;
     blackCanvas.height = canvasHeight;
-    blackCanvas.style.opacity = 0;
     startCanvas.width = canvasWidth;
     startCanvas.height = canvasHeight;
     backCanvas.width = canvasWidth;
     backCanvas.height = canvasHeight;
+    backParticleCanvas.width = canvasWidth;
+    backParticleCanvas.height = canvasHeight;
+    topCanvas.width = canvasWidth;
+    topCanvas.height = canvasHeight;
+    
+    
 
     gridSize = Math.floor(canvasHeight * 0.1 / 10) * 10;
     halfGridSize = Math.floor(gridSize / 2);

@@ -34,6 +34,7 @@ function breakStartView() {
     var s = setInterval(() => {
         if (++t > 31) {
             startCanvas.style.display = "none";
+            topCanvas.style.display = "block";
             blackCanvas.style.opacity = 1;
             drawGameView()
             clearInterval(s);
@@ -54,6 +55,7 @@ function drawGameView() {
             setTimeout(() => {
                 beadsGroup.style.opacity = 1;
                 backCanvas.style.opacity = 1;
+                topCanvas.style.opacity = 1;
                 blackCanvas.style.opacity = 0;
                 if (music) audioDic["bgm"].play();
                 gameStart = true;

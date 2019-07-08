@@ -11,8 +11,8 @@ var cheatSettingBtn;
 var cheatBtn;
 // canvas
 var beadsGroup
-var blackCanvas, startCanvas, backCanvas;
-var sCtx, mCtx, bCtx;
+var blackCanvas, startCanvas, backCanvas, backParticleCanvas, topCanvas;
+var sCtx, mCtx, bCtx, bpCtx, tCtx;
 var canvasWidth, canvasHeight;
 
 
