@@ -1,18 +1,18 @@
 function audPlay() {
-    if(!isLoad) return;
-    music = ~music;
-    if (music) {
-        if (gameStart)
-            audioDic["bgm"].play();
+    if(!game.status.is_load) return;
+    game.status.music = ~game.status.music;
+    if (game.status.music) {
+        if (game.status.is_start)
+            game.res.aud.dic["bgm"].play();
         else
-            audioDic["start"].play();
-        audImg.src = "image/UI/musicPause.png";
+            game.res.aud.dic["start"].play();
+        game.view.ui.img.aud.src = "image/UI/musicPause.png";
     }
     else {
-        if (gameStart)
-            audioDic["bgm"].pause();
+        if (game.status.is_start)
+            game.res.aud.dic["bgm"].pause();
         else
-            audioDic["start"].pause();
-        audImg.src = "image/UI/musicPlay.png";
+            game.res.aud.dic["start"].pause();
+        game.view.ui.img.aud.src = "image/UI/musicPlay.png";
     }
 }

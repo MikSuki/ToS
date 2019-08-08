@@ -4,17 +4,21 @@ window.onload = function () {
     // add touch event
     addTL();
     // load image & audio 
-    load();
+    game.res.load();
 
     // 2d array
     for (i = 0; i < 6; ++i) {
         // i -> type 
-        row[i] = [];
-        col[i] = [];
+        game.bead.clear.row[i] = [];
+        game.bead.clear.col[i] = [];
         // i -> which row
-        newBeads[i] = [];
-        dropBeads[i] = [];
+        game.bead.new[i] = [];
+        game.bead.drop[i] = [];
     }
+
+    game.particle.build()
+    requestAnimationFrame(game.loop.start)
+
 }
 
 

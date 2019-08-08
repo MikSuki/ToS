@@ -1,15 +1,15 @@
 function addTL() {
-    beadsGroup.addEventListener('touchstart', function (e) {
+    game.view.beadsGroup.addEventListener('touchstart', function (e) {
         event.preventDefault();
         mouseDown(e.touches[0].clientX, e.touches[0].clientY);
     }
         , true);
-    beadsGroup.addEventListener('touchmove', function (e) {
+    game.view.beadsGroup.addEventListener('touchmove', function (e) {
         event.preventDefault();
         mouseMove(e.touches[0].clientX, e.touches[0].clientY);
     }
         , true);
-    beadsGroup.addEventListener('touchend', function () {
+    game.view.beadsGroup.addEventListener('touchend', function () {
         event.preventDefault();
         mouseUp();
     }
@@ -21,81 +21,81 @@ function mouseDown(x, y) {
     var mousePosX = Math.floor(x);
     var mousePosY = Math.floor(y);
 
-    if (gameStart) addClkPars(x, y)
+    if (game.status.is_start) game.particle.add.click(x, y)
 
-    if (canPlay && mousePosX > startX && mousePosX < endX
-        && mousePosY > startY && mousePosY < endY) {
-        var i = Math.floor(((mousePosX - startX) / gridSize)) + Math.floor(((mousePosY - startY) / gridSize)) * 6;
-        canPlay = false;
-        isClick = true;
-        clickedBead.type = beads[i].type;
-        hover = i;
-        beads[hover].img.style.zIndex = clickZ
+    if (game.status.can_play && mousePosX > game.view.size.startX && mousePosX < game.view.size.endX
+        && mousePosY > game.view.size.startY && mousePosY < game.view.size.endY) {
+        var i = Math.floor(((mousePosX - game.view.size.startX) / game.view.size.grid)) + Math.floor(((mousePosY - game.view.size.startY) / game.view.size.grid)) * 6;
+        game.status.can_play = false;
+        game.status.is_click = true;
+        game.bead.clicked.type = game.bead.cur[i].type;
+        game.bead.hover = i;
+        game.bead.cur[game.bead.hover].img.style.zIndex = game.view.size.z.click
 
-        offsetX = Math.floor(mousePosX - startX - gridSize * (i % 6) - gap);
-        offsetY = Math.floor(mousePosY - startY - gridSize * Math.floor(i / 6) + gap);
-        clickedBead.x = Math.floor(mousePosX - offsetX);
-        clickedBead.y = Math.floor(mousePosY - offsetY);
+        game.view.size.x.offset = Math.floor(mousePosX - game.view.size.startX - game.view.size.grid * (i % 6) - game.view.size.gap);
+        game.view.size.y.offset = Math.floor(mousePosY - game.view.size.startY - game.view.size.grid * Math.floor(i / 6) + game.view.size.gap);
+        game.bead.clicked.x = Math.floor(mousePosX - game.view.size.x.offset);
+        game.bead.clicked.y = Math.floor(mousePosY - game.view.size.y.offset);
 
-        drawTransparentBead()
+        game.bead.draw.transparent()
     }
 }
 
 
 function mouseMove(x, y) {
-    if (gameStart) addMvPars(x, y)
-    if (!isClick) return;
+    if (game.status.is_start) game.particle.add.move(x, y)
+    if (!game.status.is_click) return;
     var mousePosX = Math.floor(x);
     var mousePosY = Math.floor(y);
-    if (mousePosX > startX && mousePosX < endX
-        && mousePosY > startY && mousePosY < endY) {
+    if (mousePosX > game.view.size.startX && mousePosX < game.view.size.endX
+        && mousePosY > game.view.size.startY && mousePosY < game.view.size.endY) {
 
-        var lastHover = hover;
-        beads[hover].img.style.left = Math.floor(mousePosX - offsetX) + 'px';
-        beads[hover].img.style.top = Math.floor(mousePosY - offsetY) + 'px';
+        var lastHover = game.bead.hover;
+        game.bead.cur[game.bead.hover].img.style.left = Math.floor(mousePosX - game.view.size.x.offset) + 'px';
+        game.bead.cur[game.bead.hover].img.style.top = Math.floor(mousePosY - game.view.size.y.offset) + 'px';
 
 
-        clickedBead.x = Math.floor(mousePosX - offsetX);
-        clickedBead.y = Math.floor(mousePosY - offsetY);
-        var x = Math.floor(((mousePosX - startX) / gridSize));
-        var y = Math.floor(((mousePosY - startY) / gridSize)) * 6;
-        hover = x + y;
-        if (hover != lastHover) {
-            // isMove , so  time is counting down
-            if (!isMove) {
-                isMove = true;
+        game.bead.clicked.x = Math.floor(mousePosX - game.view.size.x.offset);
+        game.bead.clicked.y = Math.floor(mousePosY - game.view.size.y.offset);
+        var x = Math.floor(((mousePosX - game.view.size.startX) / game.view.size.grid));
+        var y = Math.floor(((mousePosY - game.view.size.startY) / game.view.size.grid)) * 6;
+        game.bead.hover = x + y;
+        if (game.bead.hover != lastHover) {
+            // game.status.is_move , so  time is counting down
+            if (!game.status.is_move) {
+                game.status.is_move = true;
                 pBMove();
             }
             var temp = {
-                type: beads[lastHover].type,
-                img: beads[lastHover].img
+                type: game.bead.cur[lastHover].type,
+                img: game.bead.cur[lastHover].img
             }
-            beads[lastHover].type = beads[hover].type;
-            beads[lastHover].img = beads[hover].img;
-            beads[lastHover].img.style.left = beads[lastHover].x + 'px';
-            beads[lastHover].img.style.top = beads[lastHover].y + 'px';
-            beads[hover].type = temp.type;
-            beads[hover].img = temp.img;
-            new Audio(audSrcDic["moveAud"]).play();
+            game.bead.cur[lastHover].type = game.bead.cur[game.bead.hover].type;
+            game.bead.cur[lastHover].img = game.bead.cur[game.bead.hover].img;
+            game.bead.cur[lastHover].img.style.left = game.bead.cur[lastHover].x + 'px';
+            game.bead.cur[lastHover].img.style.top = game.bead.cur[lastHover].y + 'px';
+            game.bead.cur[game.bead.hover].type = temp.type;
+            game.bead.cur[game.bead.hover].img = temp.img;
+            new Audio(game.res.aud.src_dic["moveAud"]).play();
         }
-        drawMove();
+        game.bead.draw.move();
     }
     else mouseUp();
 }
 
 
 function mouseUp() {
-    if (canPlay || !isClick) return;
-    beads[hover].img.style.zIndex = normalZ
-    isClick = false;
-    if (!isMove) {
-        drawUp();
-        canPlay = true;
+    if (game.status.can_play || !game.status.is_click) return;
+    game.bead.cur[game.bead.hover].img.style.zIndex = game.view.size.z.normal
+    game.status.is_click = false;
+    if (!game.status.is_move) {
+        game.bead.draw.up();
+        game.status.can_play = true;
         return;
     }
-    isMove = false;
-    drawUp();
-    ruleStart();
+    game.status.is_move = false;
+    game.bead.draw.up();
+    game.ruleStart();
 }
 
 

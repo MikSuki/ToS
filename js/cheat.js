@@ -4,7 +4,7 @@ for(var i = 0; i < 6; ++i)
     cheatArr[i] = []
 
 function cheat(){
-    beads.forEach(e => {
+    game.bead.cur.forEach(e => {
         cheatArr[e.type].push(e.index)
     });
 

@@ -1,15 +1,15 @@
 function pBMove() {
-    var w = gridSize * 6;
-    var subP = Math.floor(gridSize * 6 / 100);
+    var w = game.view.size.grid * 6;
+    var subP = Math.floor(game.view.size.grid * 6 / 100);
     var s = setInterval(frame, 50);
     function frame() {
-        if (w <= 0 || !isClick) {
+        if (w <= 0 || !game.status.is_click) {
             clearInterval(s);
             mouseUp();
-            drawBar(0, 1);
+            game.view.draw.main.back.bar.redraw(0, 1);
         } else {
             w -= subP;
-            drawBar(w, 0);
+            game.view.draw.main.back.bar.redraw(w, 0);
         }
     }
 }

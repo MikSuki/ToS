@@ -3,18 +3,18 @@
 
 <head>
     <title>ToS</title>
-    <script src="js/variable.js"></script>
-    <script src="js/UI.js"></script>
+    <script src="js/var.js"></script>
+    <script src="js/View.js"></script>
     <script src="js/file.js"></script>
     <script src="js/audio.js"></script>
     <script src="js/bead.js"></script>
     <script src="js/draw.js"></script>
     <script src="js/rule.js"></script>
     <script src="js/cheat.js"></script>
-    <script src="js/promise.js"></script>
     <script src="js/progressBar.js"></script>
     <script src="js/particle.js"></script>
     <script src="js/event.js"></script>
+    <script src="js/loop.js"></script>
     <script src="js/main.js"></script>
     <link rel="stylesheet" type="text/css" href="css/body.css">
     <link rel="stylesheet" type="text/css" href="css/img.css">
@@ -26,11 +26,12 @@
 </head>
 
 <body>
-    <canvas id="blackCanvas" style="z-index: 0;"></canvas>
+    <canvas id="blackCanvas" style="z-index: 0; opacity: 0; background-color: black;"></canvas>
     <canvas id="backParticleCanvas" style="z-index: 5;"></canvas>
-    <canvas id="backCanvas" style="z-index: 10;"></canvas>
-    <canvas id="startCanvas" style="z-index: 20;"></canvas>
-    <canvas id="topCanvas" style="z-index: 1000; display: none;" onmousemove="mouseMove(event.clientX, event.clientY)"
+    <canvas id="backCanvas" style="z-index: 10; opacity: 0;"></canvas>
+    <canvas id="charCanvas" style="z-index: 20; opacity: 0;"></canvas>
+    <canvas id="startCanvas" style="z-index: 30;"></canvas>
+    <canvas id="topCanvas" style="z-index: 1000; display: none; opacity: 0;" onmousemove="mouseMove(event.clientX, event.clientY)"
         onmousedown="mouseDown(event.clientX, event.clientY)" onmouseup="mouseUp()"></canvas>
     <div id='beadsGroup' style="z-index: 100;">
     </div>
