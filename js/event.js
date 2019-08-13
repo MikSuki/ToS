@@ -1,15 +1,15 @@
 function addTL() {
-    game.view.beadsGroup.addEventListener('touchstart', function (e) {
+    game.view.canvas.top.addEventListener('touchstart', function (e) {
         event.preventDefault();
         mouseDown(e.touches[0].clientX, e.touches[0].clientY);
     }
         , true);
-    game.view.beadsGroup.addEventListener('touchmove', function (e) {
+    game.view.canvas.top.addEventListener('touchmove', function (e) {
         event.preventDefault();
         mouseMove(e.touches[0].clientX, e.touches[0].clientY);
     }
         , true);
-    game.view.beadsGroup.addEventListener('touchend', function () {
+    game.view.canvas.top.addEventListener('touchend', function () {
         event.preventDefault();
         mouseUp();
     }
