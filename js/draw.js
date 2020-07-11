@@ -5,13 +5,15 @@
 
         if (game.view.canvas.width > game.view.canvas.height) {
             var h = game.view.canvas.height;
-            var w = Math.floor(h / 492 * 900);
-            var x = Math.floor((game.view.canvas.width - w) / 2);
+            var w = ~~(h / game.res.img.dic['startBack'].height * game.res.img.dic['startBack'].width);
+            var x = 0
+            if (w < game.view.canvas.width)
+                x = (game.view.canvas.width - w) / 2
             var y = 0;
         }
         else {
             var w = game.view.canvas.width;
-            var h = Math.floor(w / 640 * 960);
+            var h = Math.floor(w / game.res.img.dic['startBack'].width * game.res.img.dic['startBack'].height);
             var y = Math.floor((game.view.canvas.height - h) / 2);
             var x = 0;
         }
@@ -299,7 +301,7 @@
     }
 
     function redraw() {
-        if(!start) return;
+        if (!start) return;
         // Iterate through every pixel
         for (let i = 0; i < imgData.data.length; i += 4) {
             if (imgData.data[i + 3] > 80) {
