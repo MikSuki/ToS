@@ -38,161 +38,125 @@
 
         p
             //          if no connect throw error
-            .then(() => findConnect())
-            .then(() => findEachClear())
-            .then(() => calDrop())
+            .then(() => clear())
+            .then(() => drop())
             .then(() => buildBeads())
             .then(() => allClear())
             //          again
             .then(() => ruleStart())
-            .catch(() => { });
+            .catch((err) => { 
+                // console.log(err) 
+            });
     }
 
-    function findConnect() {
-        var i, j, type, connect;
-        // row
+    game.ruleStart = ruleStart;
+
+    function clear() {
+        const clearRow = [], clearCol = [];
+        let offset = 1
+        // find all row clear
         for (i = 0; i < 5; ++i) {
             type = game.bead.cur[i * 6].type;
             connect = 1;
-            for (j = 1 + i * 6; j < (6 + i * 6); ++j) {
+            for (j = offset + i * 6; j < (6 + i * 6); j += offset) {
                 if (type === game.bead.cur[j].type) {
                     ++connect;
                 }
                 else {
-                    pushArr(j, type, connect, 0);
+                    pushToRowOrColClear(clearRow)
                     type = game.bead.cur[j].type;
                     connect = 1;
                 }
             }
-            pushArr(j, type, connect, 0);
+            pushToRowOrColClear(clearRow)
         }
-        // col
+        // find all col clear
+        offset = 6
         for (i = 0; i < 6; ++i) {
             type = game.bead.cur[i].type;
             connect = 1;
-            for (j = i + 6; j < 30; j += 6) {
+            for (j = i + offset; j < 30; j += offset) {
                 if (type === game.bead.cur[j].type) {
                     ++connect;
                 }
                 else {
-                    pushArr(j, type, connect, 1);
+                    pushToRowOrColClear(clearCol)
                     type = game.bead.cur[j].type;
                     connect = 1;
                 }
             }
-            pushArr(j, type, connect, 1);
+            pushToRowOrColClear(clearCol)
         }
+        const clears = []
+
+        for (let i = 0; i < clearRow.length; ++i) {
+            let clear = [i]
+            let row_a = clearRow[i]
+            // find which row connect to row_a
+            for (let j = i + 1; j < clearRow.length; ++j) {
+                let row_b = clearRow[j]
+                if (row_a.type != row_b.type ||
+                    Math.abs(row_a.y - row_b.y) > 1 ||
+                    Math.abs(row_a.x - row_b.x) >= 3)
+                    continue
+                clear.push(j)
+            }
+            // find which col connect to row_a
+            for (let j = 0; j < clearCol.length; ++j) {
+                let col_b = clearCol[j]
+                if (row_a.type != col_b.type ||
+                    !(col_b.x >= row_a.x && col_b.x <= row_a.x + row_a.length - 1) ||
+                    !(col_b.y <= row_a.y && col_b.y + col_b.length - 1 >= row_a.y))
+                    continue
+                clear.push(j + 100)
+            }
+            pushToEachClear(clear)
+        }
+
+        for (let i = 0; i < clearCol.length; ++i) {
+            let clear = [i + 100]
+            let col_a = clearCol[i]
+            // find which col connect to col
+            for (let j = i + 1; j < clearCol.length; ++j) {
+                let col_b = clearCol[j]
+                if (col_a.type != col_b.type ||
+                    Math.abs(col_a.x - col_b.x) > 1)
+                    continue
+                clear.push(j + 100)
+            }
+            pushToEachClear(clear)
+        }
+        // no connect return
         if (!game.status.is_clear) {
             game.status.can_play = true;
             game.status.combo = 0;
             throw ('no connect');
         }
-    }
-
-    // total each time beads to clear
-    function findEachClear() {
-        var i = 0, j, k, l, l1, l2, l3;
-        var thisClear = [];
-        // dir : 1 -> col , -1 -> row
-        var dir;
-        var dirArr;
-        var ID;
-
+        // clear start
         return new Promise(r => {
             //game.loop.doSth.push(loop);
-
             //ID = game.loop.newWork(loop);
-
-            var s = setInterval(() => {
-                // first, find one of col or row need to clear
-                while (!(l1 = game.bead.clear.row[i].length) && !(l2 = game.bead.clear.col[i].length)) {
-                    if (++i >= 6) {
-                        clearInterval(s);
-                        //game.loop.doSth = game.loop.doSth.filter(function (e) { return e.ID != ID })
-                        r();
-                        return
-                    }
-                }
-                l1 = (game.bead.clear.row[i] != undefined && game.bead.clear.row[i][0]) ? game.bead.clear.row[i][0].length : 0;
-                l2 = (game.bead.clear.col[i] != undefined && game.bead.clear.col[i][0]) ? game.bead.clear.col[i][0].length : 0;
-                if (l1) {
-                    for (j = 0; j < l1; ++j)
-                        thisClear.push(game.bead.clear.row[i][0][j]);
-                    dir = 1;
-                    game.bead.clear.row[i].splice(0, 1);
-                }
-                else {
-                    for (j = 0; j < l2; ++j)
-                        thisClear.push(game.bead.clear.col[i][0][j]);
-                    dir = -1;
-                    game.bead.clear.col[i].splice(0, 1);
-                }
-                // find has any connect with thisclear ?
-                var flag = true;
-                // is any thisClear[row] conect col  or  thisClear[col] connect row ?
-                while (flag) {
-                    flag = false;
-                    dirArr = (dir) ? game.bead.clear.col[i] : game.bead.clear.row[i];
-                    if (!dirArr) break;
-
-                    l1 = thisClear.length;
-                    for (j = 0; j < l1; ++j) {
-                        var val = thisClear[j];
-                        var l2 = dirArr.length;
-                        for (k = 0; k < l2; ++k) {
-                            l3 = (dirArr[k]) ? dirArr[k].length : 0;
-                            for (l = 0; l < l3; ++l) {
-                                if (val === dirArr[k][l]) {
-                                    for (var m = 0; m < l3; ++m)
-                                        thisClear.push(dirArr[k][m]);
-                                    dirArr.splice(k, 1);
-
-                                    flag = true;
-                                    break;
-                                }
-                            }
+            let i = 0
+            let s = setInterval(() => {
+                const thisClear = []
+                clears[i].forEach(e2 => {
+                    if (e2 < 100) {
+                        for (let i = 0; i < clearRow[e2].length; ++i) {
+                            let index = clearRow[e2].x + clearRow[e2].y * 6 + i * 1
+                            game.bead.cur[index].isClear = true;
+                            thisClear.push(index)
                         }
                     }
-                }
-                // is any row or col next to thisClear ?
-                flag = 2
-                while (flag) {
-                    if (flag === 2)
-                        dirArr = game.bead.clear.row[i];
-                    else
-                        dirArr = game.bead.clear.col[i];
-
-                    if (!dirArr) {
-                        --flag;
-                        continue;
-                    }
-
-                    l1 = thisClear.length;
-                    for (j = 0; j < l1; ++j) {
-                        var val1 = thisClear[j];
-                        var l2 = dirArr.length;
-                        for (k = 0; k < l2; ++k) {
-                            var l3 = (dirArr[k]) ? dirArr[k].length : 0;
-                            for (l = 0; l < l3; ++l) {
-                                var val2 = dirArr[k][l];
-                                var diff = Math.abs(val1 - val2);
-                                if ((diff === 6)
-                                    // diff = 1 , check is not col 0  and col5
-                                    || (diff === 1 && !(((val1 % 6) == 0 && (val2 % 6) == 5) || ((val1 % 6) == 5 && (val2 % 6) == 0)))) {
-
-                                    for (var m = 0; m < l3; ++m)
-                                        thisClear.push(dirArr[k][m]);
-
-                                    dirArr.splice(k, 1);
-                                    ++flag;
-                                    break;
-                                }
-                            }
+                    else if (e2 >= 100) {
+                        for (let i = 0; i < clearCol[e2 - 100].length; ++i) {
+                            index = clearCol[e2 - 100].x + clearCol[e2 - 100].y * 6 + i * 6
+                            game.bead.cur[index].isClear = true;
+                            thisClear.push(index)
                         }
                     }
-                    --flag;
-                }
-                game.bead.draw.clear(thisClear);
+
+                })
+                game.bead.draw.clear(thisClear)
                 game.bead.draw.boom(thisClear)
                 // play music
                 if (thisClear.length >= 5)
@@ -204,13 +168,58 @@
                 else
                     new Audio(game.res.aud.src_dic["comboMax"]).play();
 
-                thisClear = [];
+                if (++i >= clears.length) {
+                    clearInterval(s);
+                    setTimeout(() => {
+                        r();  
+                    }, 400);
+
+                    return
+                }
             }, game.time.clear)
         });
+
+        function pushToRowOrColClear(arr) {
+            if (connect < 3) return;
+            game.status.is_clear = true;
+            let x, y;
+            if (offset == 1) {
+                x = j - offset * connect - i * 6
+                y = i
+            }
+            else {
+                x = i
+                y = (j - i) / offset - connect
+            }
+            arr.push({
+                x: x,
+                y: y,
+                length: connect,
+                type: type,
+            })
+        }
+
+        function pushToEachClear(clear) {
+            let alreay_connect = false
+            for (let j = 0; j < clears.length; ++j) {
+                for (let k = 0; k < clear.length; ++k) {
+                    if (clears[j].indexOf(clear[k]) != -1) {
+                        alreay_connect = true
+                        clear.forEach(e => {
+                            if (clears[j].indexOf(e) == -1)
+                                clears[j].push(e)
+                        })
+                        break
+                    }
+                }
+            }
+            if (!alreay_connect)
+                clears.push(clear)
+        }
     }
 
-    // calculate original beads fall and new beads drop down
-    function calDrop() {
+    // calculate original beads fall and new beads drop check_down
+    function drop() {
         var i, j, k, t = 0, tT, max = 0;
         // find drop beads from bottom to top
         // start at 24 (left bottom)
@@ -321,23 +330,4 @@
         game.status.is_clear = false;
         game.time.drop = 15;
     }
-
-    //dir: row -> 0, col -> 1
-    function pushArr(j, type, connect, dir) {
-        if (connect < 3) return;
-        var arr = (dir) ? game.bead.clear.col[type] : game.bead.clear.row[type];
-        // row or col
-        var s = dir ? 6 : 1;
-        arr.push([]);
-        var len = arr.length - 1;
-
-        for (var k = 0; k < connect; ++k) {
-            j -= s;
-            game.bead.cur[j].isClear = true;
-            arr[len].push(j);
-        }
-        game.status.is_clear = true;
-    }
-
-    game.ruleStart = ruleStart;
 })();
