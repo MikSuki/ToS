@@ -81,21 +81,21 @@ function setSize() {
         game.view.ui.text.div.style.fontSize = Math.floor(game.view.canvas.height * 0.05) + "px";
 
 
-        game.view.ui.btn.aud.style.left = Math.floor(game.view.size.endX - game.view.size.grid) + "px";
-        game.view.ui.btn.aud.style.top = game.view.size.grid + "px";
-        game.view.ui.img.aud.style.width = game.view.size.halfGrid + "px";
-        game.view.ui.img.aud.style.height = game.view.size.halfGrid + "px";
+        // game.view.ui.btn.aud.style.left = Math.floor(game.view.size.endX - game.view.size.grid) + "px";
+        // game.view.ui.btn.aud.style.top = game.view.size.grid + "px";
+        // game.view.ui.img.aud.style.width = game.view.size.halfGrid + "px";
+        // game.view.ui.img.aud.style.height = game.view.size.halfGrid + "px";
 
 
-        game.view.ui.btn.cheatSetting.style.left = game.view.size.startX + "px";
-        game.view.ui.btn.cheatSetting.style.top = Math.floor(game.view.canvas.height * 0.1) + "px";
-        game.view.ui.btn.cheatSetting.style.borderRadius = Math.floor(game.view.canvas.height * 0.05) + "px";
+        // game.view.ui.btn.cheatSetting.style.left = game.view.size.startX + "px";
+        // game.view.ui.btn.cheatSetting.style.top = Math.floor(game.view.canvas.height * 0.1) + "px";
+        // game.view.ui.btn.cheatSetting.style.borderRadius = Math.floor(game.view.canvas.height * 0.05) + "px";
 
-        game.view.ui.btn.cheatBtn.style.left = game.view.size.startX + "px";
-        game.view.ui.btn.cheatBtn.style.top = Math.floor(game.view.canvas.height * 0.2) + "px";
-        game.view.ui.btn.cheatBtn.style.borderRadius = Math.floor(game.view.canvas.height * 0.05) + "px";
+        // game.view.ui.btn.cheatBtn.style.left = game.view.size.startX + "px";
+        // game.view.ui.btn.cheatBtn.style.top = Math.floor(game.view.canvas.height * 0.2) + "px";
+        // game.view.ui.btn.cheatBtn.style.borderRadius = Math.floor(game.view.canvas.height * 0.05) + "px";
 
-        game.view.ui.btn.cheatSetting.style.display = 'none'
-        game.view.ui.btn.cheatBtn.style.display = 'none'
+        // game.view.ui.btn.cheatSetting.style.display = 'none'
+        // game.view.ui.btn.cheatBtn.style.display = 'none'
     })();
 }
