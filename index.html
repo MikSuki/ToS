@@ -3,6 +3,7 @@
 
 <head>
     <title>ToS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="js/var.js"></script>
     <script src="js/View.js"></script>
     <script src="js/file.js"></script>
@@ -31,13 +32,17 @@
     <canvas id="backCanvas" style="z-index: 10; opacity: 0;"></canvas>
     <canvas id="charCanvas" style="z-index: 20; opacity: 0;"></canvas>
     <canvas id="startCanvas" style="z-index: 30;"></canvas>
-    <canvas id="topCanvas" style="z-index: 1000; display: none; opacity: 0;" onmousemove="mouseMove(event.clientX, event.clientY)"
-        onmousedown="mouseDown(event.clientX, event.clientY)" onmouseup="mouseUp()"></canvas>
+    <canvas id="topCanvas" style="z-index: 1000; display: none; opacity: 0;"
+        onmousemove="mouseMove(event.clientX, event.clientY)" onmousedown="mouseDown(event.clientX, event.clientY)"
+        onmouseup="mouseUp()"></canvas>
     <div id='beadsGroup' style="z-index: 100;">
     </div>
 
     <img id="loadImg" src="image/UI/load.gif">
     <div id="text" style='color: white;'>Tap to start !</div>
+    <button id='effectBtn' style="z-index: 1500; position: absolute; left: 5%; top: 5%; display: none;">
+        effect on
+    </button>
     <!-- <button id="audBtn" onclick="audPlay()">
         <img id="audImg" src="image/UI/musicPlay.png" />
     </button> -->

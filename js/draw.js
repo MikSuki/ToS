@@ -64,6 +64,7 @@
                 game.view.canvas.char.style.opacity = 1;
                 game.view.canvas.top.style.opacity = 1;
                 game.view.canvas.black.style.opacity = 0;
+                game.view.ui.btn.effectBtn.style.display = 'block'
                 if (game.status.music) game.res.aud.dic["bgm"].play();
                 game.statusis_start = true;
                 game.status.can_play = true;

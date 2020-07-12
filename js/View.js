@@ -65,6 +65,7 @@ function setSize() {
         game.view.ui.img.aud = document.getElementById("audImg");
         game.view.ui.btn.cheatSetting = document.getElementById('cheatSettingBtn')
         game.view.ui.btn.cheatBtn = document.getElementById('cheatBtn')
+        game.view.ui.btn.effectBtn = document.getElementById('effectBtn')
 
 
         game.view.ui.img.load.style.height = Math.floor(game.view.canvas.height * 0.1) + "px";
@@ -97,5 +98,15 @@ function setSize() {
 
         // game.view.ui.btn.cheatSetting.style.display = 'none'
         // game.view.ui.btn.cheatBtn.style.display = 'none'
+
+        game.view.ui.btn.effectBtn.onclick = function(){
+            let flag = true
+            return function(){
+                flag = !flag
+                game.status.enableEffect = flag
+                game.view.ui.btn.effectBtn.innerHTML = flag ? 'effect on' : 'effect off'
+            }
+        }();
+
     })();
 }

@@ -21,7 +21,7 @@ function mouseDown(x, y) {
     var mousePosX = Math.floor(x);
     var mousePosY = Math.floor(y);
 
-    if (game.status.is_start) game.particle.add.click(x, y)
+    if (game.status.is_start && game.status.enableEffect) game.particle.add.click(x, y)
 
     if (game.status.can_play && mousePosX > game.view.size.startX && mousePosX < game.view.size.endX
         && mousePosY > game.view.size.startY && mousePosY < game.view.size.endY) {
@@ -43,7 +43,7 @@ function mouseDown(x, y) {
 
 
 function mouseMove(x, y) {
-    if (game.status.is_start) game.particle.add.move(x, y)
+    if (game.status.is_start && game.status.enableEffect) game.particle.add.move(x, y)
     if (!game.status.is_click) return;
     var mousePosX = Math.floor(x);
     var mousePosY = Math.floor(y);

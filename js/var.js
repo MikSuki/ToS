@@ -113,7 +113,8 @@ var game = {
         is_move: false,
         is_clear: false,
         music: false,
-        combo: 0
+        combo: 0,
+        enableEffect: true
     },
     time: {
         clear: 300,

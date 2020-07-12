@@ -11,17 +11,19 @@
 
         game.loop.doSth.forEach((e) => { e.f(); })
 
-        // particle
-        if (game.status.is_start) {
-            if (++time > newParticleTime) {
-                time = 0
-                game.particle.add.back()
+        if (game.status.enableEffect) {
+            // particle
+            if (game.status.is_start) {
+                if (++time > newParticleTime) {
+                    time = 0
+                    game.particle.add.back()
+                }
+                game.particle.update(dt);
+                game.particle.draw();
             }
-            game.particle.update(dt);
-            game.particle.draw();
+            // miku
+            game.view.draw.main.back.miku.redraw();
         }
-        // miku
-        game.view.draw.main.back.miku.redraw();
 
 
         requestAnimationFrame(loop);
