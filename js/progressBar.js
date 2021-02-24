@@ -1,7 +1,7 @@
 function pBMove() {
     var w = game.view.size.grid * 6;
     var subP = Math.floor(game.view.size.grid * 6 / 100);
-    var s = setInterval(frame, 50);
+    var s = setInterval(frame, 150);
     function frame() {
         if (w <= 0 || !game.status.is_click) {
             clearInterval(s);
