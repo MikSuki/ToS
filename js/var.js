@@ -52,7 +52,8 @@ var game = {
                 cheatSetting: null,
                 cheat: null,
                 aud: null
-            }
+            },
+            slider: null
         },
         draw: {
             start: {

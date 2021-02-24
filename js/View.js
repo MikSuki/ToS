@@ -66,6 +66,8 @@ function setSize() {
         game.view.ui.btn.cheatSetting = document.getElementById('cheatSettingBtn')
         game.view.ui.btn.cheatBtn = document.getElementById('cheatBtn')
         game.view.ui.btn.effectBtn = document.getElementById('effectBtn')
+        game.view.ui.slider = document.getElementById('slidecontainer')
+
 
 
         game.view.ui.img.load.style.height = Math.floor(game.view.canvas.height * 0.1) + "px";
@@ -99,14 +101,24 @@ function setSize() {
         // game.view.ui.btn.cheatSetting.style.display = 'none'
         // game.view.ui.btn.cheatBtn.style.display = 'none'
 
-        game.view.ui.btn.effectBtn.onclick = function(){
+        game.view.ui.btn.effectBtn.onclick = function () {
             let flag = true
-            return function(){
+            return function () {
                 flag = !flag
                 game.status.enableEffect = flag
                 game.view.ui.btn.effectBtn.innerHTML = flag ? 'effect on' : 'effect off'
             }
         }();
+
+
+        let slider = document.getElementById("myRange");
+        let output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function () {
+            output.innerHTML = this.value;
+            game.bead.type = this.value
+        }
 
     })();
 }
