@@ -9,7 +9,8 @@
                 x: game.view.size.startX + i % 6 * game.view.size.grid,
                 y: game.view.size.startY + Math.floor(i / 6) * game.view.size.grid,
                 img: null,
-                isClear: false
+                isClear: false,
+                isIntoStack: false
             };
             game.bead.cur[i].img = createBead(i, type)
         }
