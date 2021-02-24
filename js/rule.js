@@ -44,7 +44,7 @@
             .then(() => allClear())
             //          again
             .then(() => ruleStart())
-            .catch((err) => { 
+            .catch((err) => {
                 // console.log(err) 
             });
     }
@@ -52,110 +52,116 @@
     game.ruleStart = ruleStart;
 
     function clear() {
-        const clearRow = [], clearCol = [];
-        let offset = 1
-        // find all row clear
-        for (i = 0; i < 5; ++i) {
-            type = game.bead.cur[i * 6].type;
-            connect = 1;
-            for (j = offset + i * 6; j < (6 + i * 6); j += offset) {
-                if (type === game.bead.cur[j].type) {
-                    ++connect;
-                }
-                else {
-                    pushToRowOrColClear(clearRow)
-                    type = game.bead.cur[j].type;
-                    connect = 1;
-                }
-            }
-            pushToRowOrColClear(clearRow)
-        }
-        // find all col clear
-        offset = 6
-        for (i = 0; i < 6; ++i) {
-            type = game.bead.cur[i].type;
-            connect = 1;
-            for (j = i + offset; j < 30; j += offset) {
-                if (type === game.bead.cur[j].type) {
-                    ++connect;
-                }
-                else {
-                    pushToRowOrColClear(clearCol)
-                    type = game.bead.cur[j].type;
-                    connect = 1;
-                }
-            }
-            pushToRowOrColClear(clearCol)
-        }
-        const clears = []
+        const clearQueue = []
+        const clears = [[]]
 
-        for (let i = 0; i < clearRow.length; ++i) {
-            let clear = [i]
-            let row_a = clearRow[i]
-            // find which row connect to row_a
-            for (let j = i + 1; j < clearRow.length; ++j) {
-                let row_b = clearRow[j]
-                if (row_a.type != row_b.type ||
-                    Math.abs(row_a.y - row_b.y) > 1 ||
-                    Math.abs(row_a.x - row_b.x) >= 3)
-                    continue
-                clear.push(j)
+        for (let i = 0; i < 28; ++i) {
+            if (game.bead.cur[i].isClear != true) {
+                if (clears[clears.length - 1].length != 0)
+                    clears.push([])
+                findConnect({
+                    index: i,
+                    parent: -1
+                })
             }
-            // find which col connect to row_a
-            for (let j = 0; j < clearCol.length; ++j) {
-                let col_b = clearCol[j]
-                if (row_a.type != col_b.type ||
-                    !(col_b.x >= row_a.x && col_b.x <= row_a.x + row_a.length - 1) ||
-                    !(col_b.y <= row_a.y && col_b.y + col_b.length - 1 >= row_a.y))
-                    continue
-                clear.push(j + 100)
-            }
-            pushToEachClear(clear)
         }
-
-        for (let i = 0; i < clearCol.length; ++i) {
-            let clear = [i + 100]
-            let col_a = clearCol[i]
-            // find which col connect to col
-            for (let j = i + 1; j < clearCol.length; ++j) {
-                let col_b = clearCol[j]
-                if (col_a.type != col_b.type ||
-                    Math.abs(col_a.x - col_b.x) > 1)
-                    continue
-                clear.push(j + 100)
-            }
-            pushToEachClear(clear)
-        }
+        if (clears[clears.length - 1].length != 0)
+            clears.push([])
         // no connect return
         if (!game.status.is_clear) {
             game.status.can_play = true;
             game.status.combo = 0;
             throw ('no connect');
         }
+
+        function findConnect(node) {
+            const startPos = node.index
+            const offset = [-6, 6, -1, 1] // up down left right
+            const type = game.bead.cur[startPos].type
+            let contiguous = 1,
+                lastPos = startPos;
+
+            // find straight and horizontal connections
+            for (let i = 0; i < offset.length; ++i) {
+                let curPos = startPos + offset[i];
+
+                if (boundaryCheck(startPos, curPos, offset[i]) != true) {
+                    while (type == game.bead.cur[curPos].type) {
+                        curPos += offset[i]
+                        ++contiguous
+                        if (boundaryCheck(startPos, curPos, offset[i]))
+                            break
+                    }
+                }
+
+                if (i % 2) { // column- down || row- right
+                    if (contiguous >= 3) {
+                        let j = lastPos
+                        while (j != curPos) {
+                            if (game.bead.cur[j].isClear != true) {
+                                clears[clears.length - 1].push(j)
+                                clearQueue.push({
+                                    index: j,
+                                    parent: -1
+                                })
+                            }
+                            game.bead.cur[j].isClear = true
+                            j += offset[i]
+                        }
+                        game.status.is_clear = true
+                    }
+                    contiguous = 1
+                }
+                else // column- up || row- left
+                    lastPos = curPos - offset[i];
+            }
+
+            // recursive find other connections
+            let next = clearQueue.shift()
+            const temp = [] // same type but not connected
+            while (next !== undefined) {
+                offset.forEach(o => {
+                    const n = next.index + o
+                    const b = game.bead.cur[n]
+                    if (boundaryCheck(next.index, n, o) != true &&
+                        b.isClear != true && b.type == type && b.isIntoQueue != true) {
+                        clearQueue.push({
+                            index: n,
+                            parent: next.index
+                        })
+                        b.isIntoQueue = true
+                    }
+                })
+                if (next.parent == -1 || clears[clears.length - 1].indexOf(next.parent) != -1)
+                    findConnect(next)
+                else
+                    temp.push(next.index)
+
+                next = clearQueue.shift()
+            }
+
+            temp.forEach(index => {
+                game.bead.cur[index].isIntoQueue = false
+            })
+
+            function boundaryCheck(startPos, curPos, offset) {
+                if (curPos < 0 ||
+                    curPos > 29 ||
+                    (offset == -1 && curPos < ~~(startPos / 6) * 6) ||
+                    (offset == 1 && curPos >= ~~(startPos / 6) * 6 + 6)) {
+                    return true
+                }
+                return false
+            }
+        }
+
         // clear start
         return new Promise(r => {
             //game.loop.doSth.push(loop);
             //ID = game.loop.newWork(loop);
             let i = 0
             let s = setInterval(() => {
-                const thisClear = []
-                clears[i].forEach(e2 => {
-                    if (e2 < 100) {
-                        for (let i = 0; i < clearRow[e2].length; ++i) {
-                            let index = clearRow[e2].x + clearRow[e2].y * 6 + i * 1
-                            game.bead.cur[index].isClear = true;
-                            thisClear.push(index)
-                        }
-                    }
-                    else if (e2 >= 100) {
-                        for (let i = 0; i < clearCol[e2 - 100].length; ++i) {
-                            index = clearCol[e2 - 100].x + clearCol[e2 - 100].y * 6 + i * 6
-                            game.bead.cur[index].isClear = true;
-                            thisClear.push(index)
-                        }
-                    }
-
-                })
+                const thisClear = clears[i]
                 game.bead.draw.clear(thisClear)
                 game.bead.draw.boom(thisClear)
                 // play music
@@ -168,54 +174,16 @@
                 else
                     new Audio(game.res.aud.src_dic["comboMax"]).play();
 
-                if (++i >= clears.length) {
+                if (++i >= clears.length - 1) {
                     clearInterval(s);
                     setTimeout(() => {
-                        r();  
+                        r();
                     }, 400);
 
                     return
                 }
             }, game.time.clear)
         });
-
-        function pushToRowOrColClear(arr) {
-            if (connect < 3) return;
-            game.status.is_clear = true;
-            let x, y;
-            if (offset == 1) {
-                x = j - offset * connect - i * 6
-                y = i
-            }
-            else {
-                x = i
-                y = (j - i) / offset - connect
-            }
-            arr.push({
-                x: x,
-                y: y,
-                length: connect,
-                type: type,
-            })
-        }
-
-        function pushToEachClear(clear) {
-            let alreay_connect = false
-            for (let j = 0; j < clears.length; ++j) {
-                for (let k = 0; k < clear.length; ++k) {
-                    if (clears[j].indexOf(clear[k]) != -1) {
-                        alreay_connect = true
-                        clear.forEach(e => {
-                            if (clears[j].indexOf(e) == -1)
-                                clears[j].push(e)
-                        })
-                        break
-                    }
-                }
-            }
-            if (!alreay_connect)
-                clears.push(clear)
-        }
     }
 
     // calculate original beads fall and new beads drop check_down
@@ -255,7 +223,7 @@
                 bead.img.style.left = game.bead.cur[i % 6].x + 'px'
                 bead.img.style.top = bead.y + 'px'
                 game.bead.cur[index].isClear = false;
-
+                game.bead.cur[index].isIntoQueue = false;
                 game.bead.new[i % 6].push(bead);
             }
             if (++j > 4) {
@@ -321,11 +289,15 @@
 
     function allClear() {
         for (let i = 0; i < 6; ++i) {
-            game.bead.clear.col[i].length = 0;
-            game.bead.clear.row[i].length = 0;
+            // game.bead.clear.col[i].length = 0;
+            // game.bead.clear.row[i].length = 0;
             game.bead.drop[i].length = 0;
             game.bead.new[i].length = 0;
             game.bead.clear.clearNum[i].length = 0;
+        }
+        for (let i = 0; i < 30; ++i) {
+            game.bead.cur[i].isIntoQueue = false;
+            game.bead.cur[i].isClear = false;
         }
         game.status.is_clear = false;
         game.time.drop = 15;
