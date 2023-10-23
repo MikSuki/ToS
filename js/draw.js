@@ -70,6 +70,7 @@
                 game.statusis_start = true;
                 game.status.can_play = true;
                 game.loop.doSth = game.loop.doSth.filter(function (e) { return e.ID != ID })
+                game.view.canvas.back.style.backgroundColor = '#AAAAAA';
             }
             game.view.beadsGroup.style.opacity = 1 - 0.05 * cnt;
             game.view.canvas.back.style.opacity = 1 - 0.05 * cnt;
