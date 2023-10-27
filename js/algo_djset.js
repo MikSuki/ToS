@@ -66,16 +66,12 @@ function convert(m, n, nodes) {
  * @returns @type number[][] group of nodes be cleared this run 
  */
 function findConnect(m, n, beads) {
-    /** @type bead[] */
-    // const beads = createBeads(arr);
     /** @type number */
     const mn = m * n;
     /** @type DisjointSet */
     const ds = new DisjointSet();
     /** @type Node[] */
     const nodes = new Array(mn).fill(null);
-    
-    const clears = [];
     /** @type number the num of minimum beads connect to be cleared */
     const min_connect = 3;
 
