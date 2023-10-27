@@ -16,7 +16,7 @@ DEMO: https://miksuki.github.io/ToS/
 
 <br>
 
-## 判斷符石相連的方法 - Disjoint Set
+## 判斷符石相連的方法 - Union-Find
 
 1. 初始化，每個節點的parent都設為自己
 2. 找出直的和橫的中，同屬性相連≥3顆的部分，並把他們的parent設為index最小值(最左上角)
