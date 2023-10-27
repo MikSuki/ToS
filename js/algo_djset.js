@@ -79,7 +79,6 @@ function findConnect(m, n, beads) {
         nodes[i] = ds.MakeSet(i);
 
     // calculate clear of horizontal and vertical
-
     const dir = [
         [1, 0],
         [0, 1]
@@ -134,6 +133,8 @@ function findConnect(m, n, beads) {
                 ds.Union(nodes[x], nodes[y]);
         }
     }
+
+    // get parent of all nodes
     nodes.forEach(node => ds.Find(node));
 
     // for test
