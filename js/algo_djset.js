@@ -59,11 +59,11 @@ function convert(m, n, nodes) {
 }
 
 /**
- * 
- * @param {number} m 
- * @param {number} n 
- * @param {*} beads 
- * @returns 
+ * use disjoint set to calculate which beads will be clear
+ * @param {number} m number of rows
+ * @param {number} n number of columns
+ * @param {{type: number}[]} beads game beads
+ * @returns @type number[][] group of nodes be cleared this run 
  */
 function findConnect(m, n, beads) {
     /** @type bead[] */
@@ -74,7 +74,7 @@ function findConnect(m, n, beads) {
     const ds = new DisjointSet();
     /** @type Node[] */
     const nodes = new Array(mn).fill(null);
-    /** @type number[][] group of nodes be cleared this run */
+    
     const clears = [];
     /** @type number the num of minimum beads connect to be cleared */
     const min_connect = 3;
@@ -83,7 +83,7 @@ function findConnect(m, n, beads) {
         nodes[i] = ds.MakeSet(i);
 
     // calculate clear of horizontal and vertical
-    // const dir = [1, n];
+
     const dir = [
         [1, 0],
         [0, 1]
