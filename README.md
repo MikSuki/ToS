@@ -1,6 +1,6 @@
 # ToS
 
-![ToS - video](https://github.com/MikSuki/ToS/assets/34766025/400c75a1-6e47-461e-84a3-aeb9533a4567)
+![ToS - video](https://github.com/MikSuki/ToS/blob/master/image/gif/ToS_intro.gif)
 
 
 DEMO: https://miksuki.github.io/ToS/
