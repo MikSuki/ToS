@@ -50,12 +50,6 @@ class DisjointSet {
     }
 }
 
-const arr = [
-    1, 1, 1,
-    2, 2, 2,
-    3, 3, 3,
-];
-
 function convert(m, n, nodes) {
     const res = [];
     for (let i = 0; i < m; ++i)
@@ -63,9 +57,6 @@ function convert(m, n, nodes) {
             res.push(nodes[i * n + j].parent.data);
     return res;
 }
-
-
-findConnect(3, 3, arr);
 
 /**
  * 
