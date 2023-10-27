@@ -52,107 +52,18 @@
     game.ruleStart = ruleStart;
 
     function clear() {
-        const clearQueue = []
-        const clears = [[]]
+        const clears = findConnect(5, 6, game.bead.cur);
+        if(clears.length) game.status.is_clear = true;
+        else clears.push([]);
+        clears.forEach(clear => clear.forEach(i => game.bead.cur[i].isClear = true));
 
-        for (let i = 0; i < 28; ++i) {
-            if (game.bead.cur[i].isClear != true) {
-                if (clears[clears.length - 1].length != 0)
-                    clears.push([])
-                findConnect({
-                    index: i,
-                    parent: -1
-                })
-            }
-        }
         if (clears[clears.length - 1].length != 0)
             clears.push([])
         // no connect return
         if (!game.status.is_clear) {
             game.status.can_play = true;
-            game.status.combo = 0;
+            game.status.combo = 0
             throw ('no connect');
-        }
-
-        function findConnect(node) {
-            const startPos = node.index
-            const offset = [-6, 6, -1, 1] // up down left right
-            const type = game.bead.cur[startPos].type
-            let contiguous = 1,
-                lastPos = startPos;
-
-            // find straight and horizontal connections
-            for (let i = 0; i < offset.length; ++i) {
-                let curPos = startPos + offset[i];
-
-                if (boundaryCheck(startPos, curPos, offset[i]) != true) {
-                    while (type == game.bead.cur[curPos].type) {
-                        curPos += offset[i]
-                        ++contiguous
-                        if (boundaryCheck(startPos, curPos, offset[i]))
-                            break
-                    }
-                }
-
-                if (i % 2) { // column- down || row- right
-                    if (contiguous >= 3) {
-                        let j = lastPos
-                        while (j != curPos) {
-                            if (game.bead.cur[j].isClear != true) {
-                                clears[clears.length - 1].push(j)
-                                clearQueue.push({
-                                    index: j,
-                                    parent: -1
-                                })
-                            }
-                            game.bead.cur[j].isClear = true
-                            j += offset[i]
-                        }
-                        game.status.is_clear = true
-                    }
-                    contiguous = 1
-                }
-                else // column- up || row- left
-                    lastPos = curPos - offset[i];
-            }
-
-            // recursive find other connections
-            let next = clearQueue.shift()
-            const temp = [] // same type but not connected
-            while (next !== undefined) {
-                offset.forEach(o => {
-                    const n = next.index + o
-                    const b = game.bead.cur[n]
-                    if (boundaryCheck(next.index, n, o) != true &&
-                        b.isClear != true && b.type == type && b.isIntoQueue != true) {
-                        clearQueue.push({
-                            index: n,
-                            parent: next.index
-                        })
-                        b.isIntoQueue = true
-                    }
-                })
-                if (next.parent == -1 || clears[clears.length - 1].indexOf(next.parent) != -1)
-                    findConnect(next)
-                else
-                    temp.push(next.index)
-
-                next = clearQueue.shift()
-            }
-
-            temp.forEach(index => {
-                game.bead.cur[index].isIntoQueue = false
-            })
-
-            function boundaryCheck(startPos, curPos, offset) {
-                if (curPos < 0 ||
-                    curPos > 29 ||
-                    (offset == -1 && curPos < ~~(startPos / 6) * 6) ||
-                    (offset == 1 && curPos >= ~~(startPos / 6) * 6 + 6)) {
-                    return true
-                }
-                return false
-            }
         }
 
         // clear start
