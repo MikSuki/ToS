@@ -10,7 +10,7 @@ DEMO: https://miksuki.github.io/ToS/
 ## 使用到的API： Event, Canvas, setInterval, Promise
 
 - 等待讀檔
-- 使用Canvas繪製畫面
+- Canvas繪製畫面
 - 滑鼠事件
 - Promise控制消除符石的流程
 
@@ -20,7 +20,7 @@ DEMO: https://miksuki.github.io/ToS/
 
 1. 初始化，每個節點的parent都設為自己
 2. 找出直的和橫的中，同屬性相連≥3顆的部分，並把他們的parent設為index最小值(最左上角)
-3. 所有點和右邊及下面一個分別做判斷，如果兩者屬性相同且set大小都≥3，union兩者<br><br>
+3. 所有點分別和右邊及下面一格做判斷，如果兩者屬性相同且set大小都≥3，union兩者<br><br>
     需要合併的例子:
    
    0001<br>
